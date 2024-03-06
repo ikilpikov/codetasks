@@ -12,7 +12,13 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    @Query("SELECT t FROM Task t WHERE (:difficulty IS NULL OR t.difficulty = :difficulty) AND " +
-            "(:topicName = '' OR t.topic.name = :topicName)")
-    List<Task> findByCriteria(@Param("difficulty") Difficulty difficulty, @Param("topicName") String topicName, Pageable pageable);
+    @Query("SELECT t FROM Task t " +
+            "WHERE (COALESCE(:difficulties) IS NULL OR t.difficulty IN :difficulties) " +
+            "AND (COALESCE(:topics) IS NULL OR t.topic.name IN :topics) " +
+            "AND (COALESCE(:languages) IS NULL OR EXISTS (select 1 FROM t.languages where name in :languages)) ") //t.languages.name IN :langs
+
+    List<Task> findByCriteria(@Param("difficulties") List<Difficulty> difficulties,
+                              @Param("topics") List<String> topics,
+                              @Param("languages") List<String> languages,
+                              Pageable pageable);
 }

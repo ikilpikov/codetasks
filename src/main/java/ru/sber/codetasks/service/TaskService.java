@@ -71,11 +71,12 @@ public class TaskService {
         return task;
     }
 
-    public List<ReducedTaskDto> getTasks(int page, int size, Difficulty difficulty, String topic) {
+    public List<ReducedTaskDto> getTasks(int page, int size, List<Difficulty> difficulties,
+                                         List<String> topics,  List<String> languages) {
         Pageable pageable = PageRequest.of(page, size);
 
         return taskRepository
-                .findByCriteria(difficulty, topic, pageable)
+                .findByCriteria(difficulties, topics, languages, pageable)
                 .stream()
                 .map(x -> new ReducedTaskDto(x.getName(),
                         x.getTopic().getName(),
