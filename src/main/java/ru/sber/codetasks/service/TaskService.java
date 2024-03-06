@@ -13,7 +13,6 @@ import ru.sber.codetasks.dto.task.TaskUserDto;
 import ru.sber.codetasks.repository.*;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.Transient;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,13 +20,13 @@ import java.util.stream.Collectors;
 @Service
 public class TaskService {
 
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
-    private TopicRepository topicRepository;
+    private final TopicRepository topicRepository;
 
-    private ProgrammingLanguageRepository programmingLanguageRepository;
+    private final ProgrammingLanguageRepository programmingLanguageRepository;
 
-    private TestCaseRepository testCaseRepository;
+    private final TestCaseRepository testCaseRepository;
 
     public TaskService(TaskRepository taskRepository,
                        TopicRepository topicRepository,
@@ -41,29 +40,7 @@ public class TaskService {
 
     public void createTask(CreateUpdateTaskDto taskDto) {
         Task task = new Task();
-        task.setName(taskDto.getName());
-        task.setCondition(taskDto.getCondition());
-        task.setTopic(topicRepository
-                .findByName(taskDto.getTopic())
-                .orElseThrow(() -> new EntityNotFoundException("Topic not found with name: " + taskDto.getTopic())));
-        task.setDifficulty(taskDto.getDifficulty());
-
-        var testcases = taskDto.getTestcases()
-                .stream()
-                .map(x -> new TestCase(task, x.getInputData(), x.getOutputData()))
-                .collect(Collectors.toList());
-        task.setTestCases(testcases);
-
-        var languages = taskDto.getLanguages()
-                .stream()
-                .map(x -> programmingLanguageRepository
-                        .findByName(x)
-                        .orElseThrow(() -> new EntityNotFoundException("Language not found with name: " +
-                                x)))
-                .collect(Collectors.toList());
-        task.setLanguages(languages);
-
-        taskRepository.save(task);
+        saveTask(task, taskDto);
     }
 
     public void deleteTask(Long id) {
@@ -96,26 +73,35 @@ public class TaskService {
     public List<ReducedTaskDto> getTasks(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        var tasks = taskRepository
+        return taskRepository
                 .findAll(pageable)
                 .stream()
                 .map(x -> new ReducedTaskDto(x.getName(),
                         x.getTopic().getName(),
                         x.getDifficulty(),
-                        x.getLanguages().stream().map(y -> y.getName()).collect(Collectors.toList())))
+                        x.getLanguages().stream().map(ProgrammingLanguage::getName).collect(Collectors.toList())))
                 .collect(Collectors.toList());
-
-        return tasks;
     }
 
     @Transactional
     public void updateTask(Long id, CreateUpdateTaskDto taskDto) {
         testCaseRepository.deleteAllByTask_Id(id);
 
-        var task = taskRepository.findById(id).get();
+        var task = taskRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found with id: " + id));
+
+        saveTask(task, taskDto);
+    }
+
+    private void saveTask(Task task, CreateUpdateTaskDto taskDto) {
         task.setName(taskDto.getName());
         task.setCondition(taskDto.getCondition());
-        task.setTopic(topicRepository.findByName(taskDto.getTopic()).get());
+
+        task.setTopic(topicRepository
+                .findByName(taskDto.getTopic())
+                .orElseThrow(() -> new EntityNotFoundException("Topic not found with name: " +
+                        taskDto.getTopic())));
         task.setDifficulty(taskDto.getDifficulty());
 
         var testcases = taskDto.getTestcases()
@@ -126,7 +112,9 @@ public class TaskService {
 
         var languages = taskDto.getLanguages()
                 .stream()
-                .map(x -> programmingLanguageRepository.findByName(x).get())
+                .map(x -> programmingLanguageRepository
+                        .findByName(x)
+                        .orElseThrow(() -> new EntityNotFoundException("Language not found: " + x)))
                 .collect(Collectors.toList());
         task.setLanguages(languages);
 
