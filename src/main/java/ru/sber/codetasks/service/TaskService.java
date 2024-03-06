@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.sber.codetasks.domain.ProgrammingLanguage;
 import ru.sber.codetasks.domain.Task;
 import ru.sber.codetasks.domain.TestCase;
+import ru.sber.codetasks.domain.enums.Difficulty;
 import ru.sber.codetasks.dto.comment.CommentUserDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
@@ -70,11 +71,11 @@ public class TaskService {
         return task;
     }
 
-    public List<ReducedTaskDto> getTasks(int page, int size) {
+    public List<ReducedTaskDto> getTasks(int page, int size, Difficulty difficulty, String topic) {
         Pageable pageable = PageRequest.of(page, size);
 
         return taskRepository
-                .findAll(pageable)
+                .findByCriteria(difficulty, topic, pageable)
                 .stream()
                 .map(x -> new ReducedTaskDto(x.getName(),
                         x.getTopic().getName(),
