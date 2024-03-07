@@ -3,15 +3,14 @@ package ru.sber.codetasks.service;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.sber.codetasks.domain.ProgrammingLanguage;
 import ru.sber.codetasks.domain.Task;
-import ru.sber.codetasks.domain.TestCase;
 import ru.sber.codetasks.domain.enums.Difficulty;
-import ru.sber.codetasks.dto.comment.CommentUserDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
-import ru.sber.codetasks.repository.*;
+import ru.sber.codetasks.mapper.TaskMapper;
+import ru.sber.codetasks.repository.TaskRepository;
+import ru.sber.codetasks.repository.TestCaseRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -23,25 +22,21 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    private final TopicRepository topicRepository;
-
-    private final ProgrammingLanguageRepository programmingLanguageRepository;
-
     private final TestCaseRepository testCaseRepository;
 
+    private final TaskMapper taskMapper;
+
     public TaskService(TaskRepository taskRepository,
-                       TopicRepository topicRepository,
-                       ProgrammingLanguageRepository programmingLanguageRepository,
-                       TestCaseRepository testCaseRepository) {
+                       TestCaseRepository testCaseRepository,
+                       TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
-        this.topicRepository = topicRepository;
-        this.programmingLanguageRepository = programmingLanguageRepository;
+        this.taskMapper = taskMapper;
         this.testCaseRepository = testCaseRepository;
     }
 
     public void createTask(CreateUpdateTaskDto taskDto) {
-        Task task = new Task();
-        saveTask(task, taskDto);
+        Task task = taskMapper.mapCreateUpdateTaskDtoToTask(taskDto);
+        taskRepository.save(task);
     }
 
     public void deleteTask(Long id) {
@@ -49,26 +44,11 @@ public class TaskService {
     }
 
     public TaskUserDto getTask(Long id) {
-        var taskEntity = taskRepository
+        var task = taskRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found with id: " + id));
-        var task = new TaskUserDto();
-        task.setName(taskEntity.getName());
-        task.setCondition(taskEntity.getCondition());
-        task.setDifficulty(taskEntity.getDifficulty());
-        task.setTopic(taskEntity.getTopic().getName());
 
-        var languages = taskEntity.getLanguages().stream().map(ProgrammingLanguage::getName).collect(Collectors.toList());
-        task.setLanguages(languages);
-
-        var comments = taskEntity
-                .getComments()
-                .stream()
-                .map(x -> new CommentUserDto(x.getUser().getUsername(), x.getCommentText(), x.getLikes()))
-                .collect(Collectors.toList());
-        task.setComments(comments);
-
-        return task;
+        return taskMapper.mapTaskToTaskUserDto(task);
     }
 
     public List<ReducedTaskDto> getTasks(int page, int size, List<Difficulty> difficulties,
@@ -78,48 +58,19 @@ public class TaskService {
         return taskRepository
                 .findByCriteria(difficulties, topics, languages, pageable)
                 .stream()
-                .map(x -> new ReducedTaskDto(x.getName(),
-                        x.getTopic().getName(),
-                        x.getDifficulty(),
-                        x.getLanguages().stream().map(ProgrammingLanguage::getName).collect(Collectors.toList())))
+                .map(taskMapper::mapTaskToReducedTaskDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public void updateTask(Long id, CreateUpdateTaskDto taskDto) {
+        if (!taskRepository.existsById(id)) {
+            throw new EntityNotFoundException("Task not found with id: " + id);
+        }
+
         testCaseRepository.deleteAllByTask_Id(id);
-
-        var task = taskRepository
-                .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Task not found with id: " + id));
-
-        saveTask(task, taskDto);
-    }
-
-    private void saveTask(Task task, CreateUpdateTaskDto taskDto) {
-        task.setName(taskDto.getName());
-        task.setCondition(taskDto.getCondition());
-
-        task.setTopic(topicRepository
-                .findByName(taskDto.getTopic())
-                .orElseThrow(() -> new EntityNotFoundException("Topic not found with name: " +
-                        taskDto.getTopic())));
-        task.setDifficulty(taskDto.getDifficulty());
-
-        var testcases = taskDto.getTestcases()
-                .stream()
-                .map(x -> new TestCase(task, x.getInputData(), x.getOutputData()))
-                .collect(Collectors.toList());
-        task.setTestCases(testcases);
-
-        var languages = taskDto.getLanguages()
-                .stream()
-                .map(x -> programmingLanguageRepository
-                        .findByName(x)
-                        .orElseThrow(() -> new EntityNotFoundException("Language not found: " + x)))
-                .collect(Collectors.toList());
-        task.setLanguages(languages);
-
+        var task = taskMapper.mapCreateUpdateTaskDtoToTask(taskDto);
+        task.setId(id);
         taskRepository.save(task);
     }
 

@@ -2,6 +2,7 @@ package ru.sber.codetasks.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -62,7 +63,7 @@ public class TaskController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> invalidDataExceptionHandler(MethodArgumentNotValidException ex) {
+    public ResponseEntity<String> invalidDataExceptionHandler() {
         return new ResponseEntity<>("Fields are invalid", HttpStatus.BAD_REQUEST);
     }
 
@@ -71,8 +72,8 @@ public class TaskController {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<String> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex) {
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
+    public ResponseEntity<String> methodArgumentTypeMismatchExceptionHandler() {
         return new ResponseEntity<>("Enum value incorrect", HttpStatus.NOT_FOUND);
     }
 
