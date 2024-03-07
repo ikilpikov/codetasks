@@ -5,6 +5,8 @@ import ru.sber.codetasks.domain.enums.Difficulty;
 import java.util.List;
 
 public class ReducedTaskDto {
+    private Long id;
+
     private String name;
 
     private String topic;
@@ -13,11 +15,20 @@ public class ReducedTaskDto {
 
     private List<String> languages;
 
-    public ReducedTaskDto(String name, String topic, Difficulty difficulty, List<String> languages) {
+    public ReducedTaskDto(Long id, String name, String topic, Difficulty difficulty, List<String> languages) {
         this.name = name;
         this.topic = topic;
         this.difficulty = difficulty;
         this.languages = languages;
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -51,4 +62,5 @@ public class ReducedTaskDto {
     public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
+
 }

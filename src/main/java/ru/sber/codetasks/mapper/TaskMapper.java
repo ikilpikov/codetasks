@@ -55,7 +55,8 @@ public class TaskMapper {
     }
 
     public ReducedTaskDto mapTaskToReducedTaskDto(Task task) {
-        return new ReducedTaskDto(task.getName(),
+        return new ReducedTaskDto(task.getId(),
+                task.getName(),
                 task.getTopic().getName(),
                 task.getDifficulty(),
                 task.getLanguages()
