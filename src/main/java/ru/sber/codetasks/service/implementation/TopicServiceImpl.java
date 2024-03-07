@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class TopicServiceImpl implements TopicService {
-    private TopicRepository topicRepository;
+    private final TopicRepository topicRepository;
+    public static final String TOPIC_NOT_FOUND_MESSAGE = "Topic not found: ";
 
     public TopicServiceImpl(TopicRepository topicRepository) {
         this.topicRepository = topicRepository;
@@ -29,7 +30,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void deleteTopic(Long id) {
         if (!topicRepository.existsById(id)) {
-            throw new EntityNotFoundException("Topic not found: " + id);
+            throw new EntityNotFoundException(TOPIC_NOT_FOUND_MESSAGE + id);
         }
         topicRepository.deleteById(id);
     }
@@ -37,7 +38,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public ReducedTopicDto getTopic(Long id) {
         var topic = topicRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Topic not found: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(TOPIC_NOT_FOUND_MESSAGE + id));
 
         return new ReducedTopicDto(topic.getName());
     }
@@ -53,7 +54,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void updateTopic(Long id, ReducedTopicDto topicDto) {
         var topic = topicRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Topic not found: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(TOPIC_NOT_FOUND_MESSAGE + id));
 
         topic.setName(topicDto.getName());
         topicRepository.save(topic);

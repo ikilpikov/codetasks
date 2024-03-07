@@ -27,6 +27,8 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskMapper taskMapper;
 
+    public static final String TASK_NOT_FOUND_MESSAGE = "Task not found: ";
+
     public TaskServiceImpl(TaskRepository taskRepository,
                        TestCaseRepository testCaseRepository,
                        TaskMapper taskMapper) {
@@ -42,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
 
     public void deleteTask(Long id) {
         if (!taskRepository.existsById(id)) {
-            throw new EntityNotFoundException("Task not found: " + id);
+            throw new EntityNotFoundException(TASK_NOT_FOUND_MESSAGE + id);
         }
         taskRepository.deleteById(id);
     }
@@ -50,7 +52,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskUserDto getTask(Long id) {
         var task = taskRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Task not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(TASK_NOT_FOUND_MESSAGE + id));
 
         return taskMapper.mapTaskToTaskUserDto(task);
     }
@@ -69,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public void updateTask(Long id, CreateUpdateTaskDto taskDto) {
         if (!taskRepository.existsById(id)) {
-            throw new EntityNotFoundException("Task not found with id: " + id);
+            throw new EntityNotFoundException(TASK_NOT_FOUND_MESSAGE + id);
         }
 
         testCaseRepository.deleteAllByTask_Id(id);

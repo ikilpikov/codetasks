@@ -22,6 +22,14 @@ import java.util.List;
 public class TaskController {
     private final TaskService taskService;
 
+    public static final String TASK_ADDED_MESSAGE = "Task added successfully";
+
+    public static final String TASK_DELETED_MESSAGE = "Task deleted successfully";
+
+    public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
+
+    public static final String ENUM_INVALID_MESSAGE = "Enum is invalid";
+
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
@@ -29,13 +37,13 @@ public class TaskController {
     @PostMapping("/add")
     public ResponseEntity<String> addTask(@RequestBody @Valid CreateUpdateTaskDto taskDto) {
         taskService.createTask(taskDto);
-        return new ResponseEntity<>("Task added successfully", HttpStatus.OK);
+        return new ResponseEntity<>(TASK_ADDED_MESSAGE, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> removeTask(@PathVariable Long id) {
         taskService.deleteTask(id);
-        return new ResponseEntity<>("Task deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>(TASK_DELETED_MESSAGE, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -64,7 +72,7 @@ public class TaskController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> invalidDataExceptionHandler() {
-        return new ResponseEntity<>("Fields are invalid", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(FIELDS_INVALID_MESSAGE, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -74,7 +82,7 @@ public class TaskController {
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
     public ResponseEntity<String> methodArgumentTypeMismatchExceptionHandler() {
-        return new ResponseEntity<>("Enum value incorrect", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ENUM_INVALID_MESSAGE, HttpStatus.NOT_FOUND);
     }
 
 }

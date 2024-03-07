@@ -16,7 +16,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/topic")
 public class TopicController {
-    private TopicService topicService;
+    private final TopicService topicService;
+
+    public static final String TOPIC_ADDED_MESSAGE = "Topic added successfully";
+
+    public static final String TOPIC_DELETED_MESSAGE = "Topic deleted successfully";
+
+    public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
+
+    public static final String RELATION_VIOLATION_MESSAGE =
+            "Cannot delete cause this topic is related to a task";
 
     public TopicController(TopicService topicService) {
         this.topicService = topicService;
@@ -25,13 +34,13 @@ public class TopicController {
     @PostMapping("/add")
     public ResponseEntity<String> addTask(@RequestBody @Valid ReducedTopicDto topicDto) {
         topicService.createTopic(topicDto);
-        return new ResponseEntity<>("Topic added successfully", HttpStatus.OK);
+        return new ResponseEntity<>(TOPIC_ADDED_MESSAGE, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> removeTask(@PathVariable Long id) {
         topicService.deleteTopic(id);
-        return new ResponseEntity<>("Topic deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>(TOPIC_DELETED_MESSAGE, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -56,7 +65,7 @@ public class TopicController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> invalidDataExceptionHandler() {
-        return new ResponseEntity<>("Fields are invalid", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(FIELDS_INVALID_MESSAGE, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -66,7 +75,7 @@ public class TopicController {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public  ResponseEntity<String> dataIntegrityViolationException() {
-        return new ResponseEntity<>("Cannot delete cause this topic is related to a task",
+        return new ResponseEntity<>(RELATION_VIOLATION_MESSAGE,
                 HttpStatus.BAD_REQUEST);
     }
 
