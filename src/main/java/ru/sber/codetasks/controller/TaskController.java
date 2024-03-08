@@ -24,6 +24,8 @@ public class TaskController {
 
     public static final String TASK_ADDED_MESSAGE = "Task added successfully";
 
+    public static final String TASK_UPDATED_MESSAGE = "Task updated successfully";
+
     public static final String TASK_DELETED_MESSAGE = "Task deleted successfully";
 
     public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
@@ -67,11 +69,11 @@ public class TaskController {
                                              @RequestBody @Valid CreateUpdateTaskDto taskDto) {
 
         taskService.updateTask(id, taskDto);
-        return new ResponseEntity<>("Task updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>(TASK_UPDATED_MESSAGE, HttpStatus.OK);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> invalidDataExceptionHandler() {
+    public ResponseEntity<String> invalidDataExceptionHandler(MethodArgumentNotValidException ex) {
         return new ResponseEntity<>(FIELDS_INVALID_MESSAGE, HttpStatus.BAD_REQUEST);
     }
 
@@ -81,7 +83,7 @@ public class TaskController {
     }
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
-    public ResponseEntity<String> methodArgumentTypeMismatchExceptionHandler() {
+    public ResponseEntity<String> methodArgumentTypeMismatchExceptionHandler(MethodArgumentNotValidException ex) {
         return new ResponseEntity<>(ENUM_INVALID_MESSAGE, HttpStatus.NOT_FOUND);
     }
 
