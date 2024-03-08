@@ -24,6 +24,8 @@ public class TopicController {
 
     public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
 
+    public static final String TOPIC_UPDATED_MESSAGE = "Topic updated successfully";
+
     public static final String RELATION_VIOLATION_MESSAGE =
             "Cannot delete cause this topic is related to a task";
 
@@ -56,11 +58,11 @@ public class TopicController {
 
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateTask(@PathVariable Long id,
+    public ResponseEntity<String> updateTopic(@PathVariable Long id,
                                              @RequestBody @Valid ReducedTopicDto topicDto) {
 
         topicService.updateTopic(id, topicDto);
-        return new ResponseEntity<>("Topic updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>(TOPIC_UPDATED_MESSAGE, HttpStatus.OK);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
