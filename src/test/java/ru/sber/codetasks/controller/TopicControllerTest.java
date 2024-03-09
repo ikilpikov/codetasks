@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -76,6 +77,15 @@ class TopicControllerTest {
 
         mockMvc.perform(delete("/topic/delete/{id}", topicId))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void remove_constraint_violation_topic() throws Exception {
+        doThrow(DataIntegrityViolationException.class).when(topicService).deleteTopic(anyLong());
+        Long topicId = 1L;
+
+        mockMvc.perform(delete("/topic/delete/{id}", topicId))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
