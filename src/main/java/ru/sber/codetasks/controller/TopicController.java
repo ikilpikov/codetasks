@@ -34,19 +34,19 @@ public class TopicController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addTask(@RequestBody @Valid ReducedTopicDto topicDto) {
+    public ResponseEntity<String> addTopic(@RequestBody @Valid ReducedTopicDto topicDto) {
         topicService.createTopic(topicDto);
         return new ResponseEntity<>(TOPIC_ADDED_MESSAGE, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> removeTask(@PathVariable Long id) {
+    public ResponseEntity<String> removeTopic(@PathVariable Long id) {
         topicService.deleteTopic(id);
         return new ResponseEntity<>(TOPIC_DELETED_MESSAGE, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReducedTopicDto> getTask(@PathVariable Long id) {
+    public ResponseEntity<ReducedTopicDto> getTopic(@PathVariable Long id) {
         return new ResponseEntity<>(topicService.getTopic(id), HttpStatus.OK);
     }
 
@@ -59,7 +59,7 @@ public class TopicController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateTopic(@PathVariable Long id,
-                                             @RequestBody @Valid ReducedTopicDto topicDto) {
+                                              @RequestBody @Valid ReducedTopicDto topicDto) {
 
         topicService.updateTopic(id, topicDto);
         return new ResponseEntity<>(TOPIC_UPDATED_MESSAGE, HttpStatus.OK);
@@ -76,7 +76,7 @@ public class TopicController {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public  ResponseEntity<String> dataIntegrityViolationException() {
+    public ResponseEntity<String> dataIntegrityViolationException() {
         return new ResponseEntity<>(RELATION_VIOLATION_MESSAGE,
                 HttpStatus.BAD_REQUEST);
     }

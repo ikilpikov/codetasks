@@ -56,7 +56,7 @@ public class TaskController {
     @GetMapping("/all")
     public ResponseEntity<List<ReducedTaskDto>> getAllTasks(@RequestParam(defaultValue = "0") int page,
                                                             @RequestParam(defaultValue = "10") int size,
-                                                            @RequestParam(defaultValue = "") List<Difficulty> difficulties,
+                                                            @RequestParam(defaultValue = "")List<Difficulty> difficulties,
                                                             @RequestParam(defaultValue = "") List<String> topics,
                                                             @RequestParam(defaultValue = "") List<String> languages) {
 

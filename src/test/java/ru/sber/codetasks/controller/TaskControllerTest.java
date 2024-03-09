@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(TaskController.class)
 class TaskControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -137,9 +136,15 @@ class TaskControllerTest {
     void update_not_existing_task() throws Exception {
         doThrow(EntityNotFoundException.class)
                 .when(taskService).updateTask(any(Long.class), any(CreateUpdateTaskDto.class));
+        CreateUpdateTaskDto taskDto = getValidCreateUpdateTaskDto();
+
+        String jsonContent = objectMapper.writeValueAsString(taskDto);
+
         Long taskId = 1L;
 
-        mockMvc.perform(put("/task/update/{id}", taskId))
+        mockMvc.perform(put("/task/update/{id}", taskId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonContent))
                 .andExpect(status().isNotFound());
     }
 
