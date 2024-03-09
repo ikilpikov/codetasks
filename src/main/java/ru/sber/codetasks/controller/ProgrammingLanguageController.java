@@ -34,13 +34,13 @@ public class ProgrammingLanguageController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addTask(@RequestBody @Valid ReducedProgrammingLanguageDto programmingLanguageDto) {
+    public ResponseEntity<String> addProgrammingLanguage(@RequestBody @Valid ReducedProgrammingLanguageDto programmingLanguageDto) {
         programmingLanguageService.createProgrammingLanguage(programmingLanguageDto);
         return new ResponseEntity<>(LANGUAGE_ADDED_MESSAGE, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> removeTask(@PathVariable Long id) {
+    public ResponseEntity<String> removeProgrammingLanguage(@PathVariable Long id) {
         programmingLanguageService.deleteProgrammingLanguage(id);
         return new ResponseEntity<>(LANGUAGE_DELETED_MESSAGE, HttpStatus.OK);
     }

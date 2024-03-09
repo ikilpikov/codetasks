@@ -25,13 +25,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(TopicController.class)
 class TopicControllerTest {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @MockBean
-    TopicService topicService;
+    private TopicService topicService;
 
     @Test
     void add_valid_topic() throws Exception {
@@ -111,7 +111,7 @@ class TopicControllerTest {
     }
 
     @Test
-    void getAllTopics() throws Exception {
+    void get_all_topics() throws Exception {
         when(topicService.getTopics())
                 .thenReturn(List.of(getValidTopicDto()));
 
@@ -155,11 +155,11 @@ class TopicControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    ReducedTopicDto getValidReducedTopicDto() {
+    private ReducedTopicDto getValidReducedTopicDto() {
         return new ReducedTopicDto("name");
     }
 
-    TopicDto getValidTopicDto() {
+    private TopicDto getValidTopicDto() {
         return new TopicDto(1L, "name");
     }
 

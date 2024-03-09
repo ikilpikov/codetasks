@@ -10,6 +10,9 @@ public class ReducedProgrammingLanguageDto {
         this.name = name;
     }
 
+    public ReducedProgrammingLanguageDto() {
+    }
+
     public String getName() {
         return name;
     }
