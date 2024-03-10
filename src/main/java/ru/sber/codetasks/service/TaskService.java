@@ -18,4 +18,5 @@ public interface TaskService {
                                          List<String> topics, List<String> languages);
 
     void updateTask(Long id, CreateUpdateTaskDto taskDto);
+
 }

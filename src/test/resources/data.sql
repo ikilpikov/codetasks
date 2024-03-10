@@ -1,0 +1,1 @@
+INSERT INTO programming_language (name) VALUES ('java');
