@@ -3,6 +3,7 @@ package ru.sber.codetasks.controller;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.codetasks.dto.programming_language.ProgrammingLanguageDto;
@@ -34,23 +35,27 @@ public class ProgrammingLanguageController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addProgrammingLanguage(@RequestBody @Valid ReducedProgrammingLanguageDto programmingLanguageDto) {
         programmingLanguageService.createProgrammingLanguage(programmingLanguageDto);
         return new ResponseEntity<>(LANGUAGE_ADDED_MESSAGE, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> removeProgrammingLanguage(@PathVariable Long id) {
         programmingLanguageService.deleteProgrammingLanguage(id);
         return new ResponseEntity<>(LANGUAGE_DELETED_MESSAGE, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ReducedProgrammingLanguageDto> getProgrammingLanguage(@PathVariable Long id) {
         return new ResponseEntity<>(programmingLanguageService.getProgrammingLanguage(id), HttpStatus.OK);
     }
 
     @GetMapping("/all")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<ProgrammingLanguageDto>> getAllProgrammingLanguages() {
         var languages = programmingLanguageService.getProgrammingLanguages();
         return new ResponseEntity<>(languages, HttpStatus.OK);
@@ -58,6 +63,7 @@ public class ProgrammingLanguageController {
 
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> updateProgrammingLanguage(@PathVariable Long id,
                                              @RequestBody @Valid ReducedProgrammingLanguageDto programmingLanguageDto) {
 
