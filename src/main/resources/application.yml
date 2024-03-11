@@ -12,3 +12,7 @@ custom-properties:
   jwt:
     secret: jsonwebtokensecretphrasepneumonoultramicroscopicsilicovolcanoconiosisantidisestablishmentarianism
     issuer: ilya
+  executor:
+    url: https://onecompiler-apis.p.rapidapi.com/api/v1/run
+    key: 0f4975a1a0msh6d0b7389f93e323p196766jsn7b836f278d3c
+    host: onecompiler-apis.p.rapidapi.com

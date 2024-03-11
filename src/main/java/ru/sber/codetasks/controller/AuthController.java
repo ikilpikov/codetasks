@@ -19,7 +19,7 @@ import java.util.Map;
 public class AuthController {
     private final UserService userService;
 
-    public static final String FIELDS_INVALID_MESSAGE = "Fiels are invalid";
+    public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
 
     public static final String CANNOT_AUTHENTICATE = "Cannot authenticate";
 
@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @ExceptionHandler({BadCredentialsException.class})
-    public ResponseEntity<String> handleJwtException(Exception ex) {
+    public ResponseEntity<String> jwtExceptionHandler(Exception ex) {
         return new ResponseEntity<>(CANNOT_AUTHENTICATE, HttpStatus.BAD_REQUEST);
     }
 
@@ -51,7 +51,7 @@ public class AuthController {
 
     @ExceptionHandler(KeyAlreadyExistsException.class)
     public ResponseEntity<String> keyAlreadyExistsExceptionHandler(KeyAlreadyExistsException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
