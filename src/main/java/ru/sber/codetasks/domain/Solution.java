@@ -3,7 +3,6 @@ package ru.sber.codetasks.domain;
 import javax.persistence.*;
 
 import java.security.Timestamp;
-import java.time.Duration;
 
 @Entity
 @Table(name = "solution")
@@ -24,7 +23,7 @@ public class Solution {
     private Timestamp submissionDate;
 
     @Column(name = "execution_time")
-    private Duration executionTime;
+    private int executionTime;
 
     @Column(name = "is_accepted")
     private Boolean isAccepted;
@@ -64,11 +63,11 @@ public class Solution {
         this.submissionDate = submissionDate;
     }
 
-    public Duration getExecutionTime() {
+    public int getExecutionTime() {
         return executionTime;
     }
 
-    public void setExecutionTime(Duration executionTime) {
+    public void setExecutionTime(int executionTime) {
         this.executionTime = executionTime;
     }
 

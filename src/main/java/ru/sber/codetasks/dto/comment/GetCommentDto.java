@@ -1,16 +1,27 @@
 package ru.sber.codetasks.dto.comment;
 
-public class CommentUserDto {
+public class GetCommentDto {
+    private Long id;
+
     private String username;
 
     private String commentText;
 
     private int likes;
 
-    public CommentUserDto(String username, String commentText, int likes) {
+    public GetCommentDto(Long id, String username, String commentText, int likes) {
+        this.id = id;
         this.username = username;
         this.commentText = commentText;
         this.likes = likes;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {

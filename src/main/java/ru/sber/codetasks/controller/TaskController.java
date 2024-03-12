@@ -1,13 +1,16 @@
 package ru.sber.codetasks.controller;
 
+import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.sber.codetasks.domain.enums.Difficulty;
+import ru.sber.codetasks.dto.comment.CreateUpdateCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
@@ -32,6 +35,10 @@ public class TaskController {
     public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
 
     public static final String ENUM_INVALID_MESSAGE = "Enum is invalid";
+
+    public static final String COMMENT_ADDED_MESSAGE = "Comment added successfully";
+
+    public static final String COMMENT_DELETED_MESSAGE = "Comment deleted successfully";
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
@@ -61,7 +68,7 @@ public class TaskController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<ReducedTaskDto>> getAllTasks(@RequestParam(defaultValue = "0") int page,
                                                             @RequestParam(defaultValue = "10") int size,
-                                                            @RequestParam(defaultValue = "")List<Difficulty> difficulties,
+                                                            @RequestParam(defaultValue = "") List<Difficulty> difficulties,
                                                             @RequestParam(defaultValue = "") List<String> topics,
                                                             @RequestParam(defaultValue = "") List<String> languages) {
 
@@ -78,6 +85,32 @@ public class TaskController {
         return new ResponseEntity<>(TASK_UPDATED_MESSAGE, HttpStatus.OK);
     }
 
+    @GetMapping("/count")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Long> countTasks() {
+        var count = taskService.countTasks();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/comment/add")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> addComment(@PathVariable Long id,
+                                             @RequestBody CreateUpdateCommentDto commentDto,
+                                             Authentication authentication) {
+
+        taskService.addComment(id, commentDto, authentication.getName());
+        return new ResponseEntity<>(COMMENT_ADDED_MESSAGE, HttpStatus.OK);
+    }
+
+    @PostMapping("/comment/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> deleteComment(@PathVariable Long id,
+                                                Authentication authentication) throws AccessException {
+
+        taskService.deleteComment(id, authentication.getName());
+        return new ResponseEntity<>(COMMENT_DELETED_MESSAGE, HttpStatus.OK);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> invalidDataExceptionHandler(MethodArgumentNotValidException ex) {
         return new ResponseEntity<>(FIELDS_INVALID_MESSAGE, HttpStatus.BAD_REQUEST);
@@ -91,6 +124,11 @@ public class TaskController {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
     public ResponseEntity<String> methodArgumentTypeMismatchExceptionHandler(MethodArgumentNotValidException ex) {
         return new ResponseEntity<>(ENUM_INVALID_MESSAGE, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AccessException.class)
+    public ResponseEntity<String> accessExceptionHandler(AccessException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
 }

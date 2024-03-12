@@ -1,7 +1,7 @@
 package ru.sber.codetasks.dto.task;
 
 import ru.sber.codetasks.domain.enums.Difficulty;
-import ru.sber.codetasks.dto.comment.CommentUserDto;
+import ru.sber.codetasks.dto.comment.GetCommentDto;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class TaskUserDto {
 
     private List<String> languages;
 
-    private List<CommentUserDto> comments;
+    private List<GetCommentDto> comments;
 
     public String getName() {
         return name;
@@ -58,11 +58,11 @@ public class TaskUserDto {
         this.languages = languages;
     }
 
-    public List<CommentUserDto> getComments() {
+    public List<GetCommentDto> getComments() {
         return comments;
     }
 
-    public void setComments(List<CommentUserDto> comments) {
+    public void setComments(List<GetCommentDto> comments) {
         this.comments = comments;
     }
 

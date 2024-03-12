@@ -1,6 +1,8 @@
 package ru.sber.codetasks.service;
 
+import org.springframework.expression.AccessException;
 import ru.sber.codetasks.domain.enums.Difficulty;
+import ru.sber.codetasks.dto.comment.CreateUpdateCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
@@ -15,8 +17,16 @@ public interface TaskService {
     TaskUserDto getTask(Long id);
 
     List<ReducedTaskDto> getTasks(int page, int size, List<Difficulty> difficulties,
-                                         List<String> topics, List<String> languages);
+                                  List<String> topics, List<String> languages);
 
     void updateTask(Long id, CreateUpdateTaskDto taskDto);
+
+    Long countTasks();
+
+    void addComment(Long taskId,
+                    CreateUpdateCommentDto createUpdateCommentDto,
+                    String username);
+
+    void deleteComment(Long id, String username) throws AccessException;
 
 }

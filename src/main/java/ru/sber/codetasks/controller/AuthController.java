@@ -33,7 +33,7 @@ public class AuthController {
         return userService.registerUser(registerRequest);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @PreAuthorize("isAnonymous()")
     public Map<String, String> authenticateUser(@RequestBody LoginRequest loginRequest) {
         return userService.authenticateUser(loginRequest);
