@@ -111,6 +111,15 @@ public class TaskController {
         return new ResponseEntity<>(COMMENT_DELETED_MESSAGE, HttpStatus.OK);
     }
 
+    @PostMapping("/comment/like/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> likeComment(@PathVariable Long id,
+                                                Authentication authentication) throws AccessException {
+
+        taskService.likeComment(id, authentication.getName());
+        return new ResponseEntity<>(COMMENT_DELETED_MESSAGE, HttpStatus.OK);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> invalidDataExceptionHandler(MethodArgumentNotValidException ex) {
         return new ResponseEntity<>(FIELDS_INVALID_MESSAGE, HttpStatus.BAD_REQUEST);

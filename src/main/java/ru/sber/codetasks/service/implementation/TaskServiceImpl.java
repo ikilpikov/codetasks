@@ -54,11 +54,13 @@ public class TaskServiceImpl implements TaskService {
         this.commentRepository = commentRepository;
     }
 
+    @Override
     public void createTask(CreateUpdateTaskDto taskDto) {
         Task task = taskMapper.mapCreateUpdateTaskDtoToTask(taskDto);
         taskRepository.save(task);
     }
 
+    @Override
     public void deleteTask(Long id) {
         if (!taskRepository.existsById(id)) {
             throw new EntityNotFoundException(TASK_NOT_FOUND_MESSAGE + id);
@@ -66,6 +68,7 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.deleteById(id);
     }
 
+    @Override
     public TaskUserDto getTask(Long id) {
         var task = taskRepository
                 .findById(id)
@@ -74,6 +77,7 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.mapTaskToTaskUserDto(task);
     }
 
+    @Override
     public List<ReducedTaskDto> getTasks(int page, int size, List<Difficulty> difficulties,
                                          List<String> topics, List<String> languages) {
         Pageable pageable = PageRequest.of(page, size);
@@ -85,6 +89,7 @@ public class TaskServiceImpl implements TaskService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     @Transactional
     public void updateTask(Long id, CreateUpdateTaskDto taskDto) {
         if (!taskRepository.existsById(id)) {
@@ -97,10 +102,12 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(task);
     }
 
+    @Override
     public Long countTasks() {
         return taskRepository.count();
     }
 
+    @Override
     public void addComment(Long taskId,
                            CreateUpdateCommentDto createUpdateCommentDto,
                            String username) {
@@ -123,6 +130,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
 
+    @Override
     public void deleteComment(Long id, String username) throws AccessException {
         var comment = commentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + id));
@@ -135,6 +143,11 @@ public class TaskServiceImpl implements TaskService {
         } else {
             throw new AccessException("No rights to delete");
         }
+    }
+
+    @Override
+    public void likeComment(Long id, String username) {
+
     }
 
     private boolean canCommentBeDeleted(User user, Comment comment) {

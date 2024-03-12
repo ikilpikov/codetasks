@@ -9,11 +9,14 @@ public class GetCommentDto {
 
     private int likes;
 
-    public GetCommentDto(Long id, String username, String commentText, int likes) {
+    private boolean isLiked;
+
+    public GetCommentDto(Long id, String username, String commentText, int likes, boolean isLiked) {
         this.id = id;
         this.username = username;
         this.commentText = commentText;
         this.likes = likes;
+        this.isLiked = isLiked;
     }
 
     public void setId(Long id) {
@@ -46,6 +49,14 @@ public class GetCommentDto {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
     }
 
 }

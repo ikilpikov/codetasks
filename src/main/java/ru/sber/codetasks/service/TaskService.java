@@ -29,4 +29,5 @@ public interface TaskService {
 
     void deleteComment(Long id, String username) throws AccessException;
 
+    void likeComment(Long id, String username);
 }

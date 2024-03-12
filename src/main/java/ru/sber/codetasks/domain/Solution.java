@@ -25,11 +25,8 @@ public class Solution {
     @Column(name = "execution_time")
     private int executionTime;
 
-    @Column(name = "is_accepted")
-    private Boolean isAccepted;
-
-    @Column(name = "likes", columnDefinition = "INT DEFAULT 0")
-    private int likes;
+    @Column(name = "code", nullable = false, columnDefinition = "TEXT")
+    private String code;
 
     public Long getId() {
         return id;
@@ -71,20 +68,12 @@ public class Solution {
         this.executionTime = executionTime;
     }
 
-    public Boolean getAccepted() {
-        return isAccepted;
+    public String getCode() {
+        return code;
     }
 
-    public void setAccepted(Boolean accepted) {
-        isAccepted = accepted;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public void setCode(String code) {
+        this.code = code;
     }
 
 }
