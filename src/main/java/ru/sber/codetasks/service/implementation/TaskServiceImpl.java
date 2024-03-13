@@ -42,6 +42,10 @@ public class TaskServiceImpl implements TaskService {
 
     public static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found ";
 
+    public static final String USER_NOT_FOUND_MESSAGE = "User not found ";
+
+    public static final String NO_RIGHTS_MESSAGE = "No rights";
+
     public TaskServiceImpl(TaskRepository taskRepository,
                            TestCaseRepository testCaseRepository,
                            UserRepository userRepository,
@@ -136,12 +140,12 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + id));
 
         var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found " + username));
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
 
         if (canCommentBeDeleted(user, comment)) {
             commentRepository.deleteById(id);
         } else {
-            throw new AccessException("No rights to delete");
+            throw new AccessException(NO_RIGHTS_MESSAGE);
         }
     }
 

@@ -24,6 +24,13 @@ public class SolutionServiceImpl {
     @Autowired
     UserRepository userRepository;
 
+    public static final String TASK_NOT_FOUND_MESSAGE = "Task not found: ";
+
+    public static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found ";
+
+    public static final String USER_NOT_FOUND_MESSAGE = "User not found ";
+
+
     public SolutionServiceImpl(CodeExecutionService codeExecutionService) {
         this.codeExecutionService = codeExecutionService;
     }

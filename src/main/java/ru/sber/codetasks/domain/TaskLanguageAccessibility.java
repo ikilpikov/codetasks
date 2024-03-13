@@ -2,7 +2,6 @@ package ru.sber.codetasks.domain;
 
 import javax.persistence.*;
 
-
 @Table(name = "task_language_accessibility")
 public class TaskLanguageAccessibility {
     @Id

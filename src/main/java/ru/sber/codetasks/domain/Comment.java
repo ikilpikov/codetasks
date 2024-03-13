@@ -1,6 +1,7 @@
 package ru.sber.codetasks.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "comment")
@@ -20,8 +21,13 @@ public class Comment {
     @Column(name = "comment_text", nullable = false, columnDefinition = "TEXT")
     private String commentText;
 
-    @Column(name = "likes", columnDefinition = "INT DEFAULT 0")
-    private int likes;
+    @ManyToMany
+    @JoinTable(
+            name = "comment_likes",
+            joinColumns = @JoinColumn(name = "comment"),
+            inverseJoinColumns = @JoinColumn(name = "\"user\"")
+    )
+    private List<User> usersLiked;
 
     public Long getId() {
         return id;
@@ -55,12 +61,6 @@ public class Comment {
         this.commentText = commentText;
     }
 
-    public int getLikes() {
-        return likes;
-    }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
 
 }
