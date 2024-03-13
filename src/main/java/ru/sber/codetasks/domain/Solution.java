@@ -2,7 +2,7 @@ package ru.sber.codetasks.domain;
 
 import javax.persistence.*;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "solution")
