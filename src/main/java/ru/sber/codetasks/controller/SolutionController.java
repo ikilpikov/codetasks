@@ -40,6 +40,4 @@ public class SolutionController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-
-
 }
