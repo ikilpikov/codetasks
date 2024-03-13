@@ -6,7 +6,6 @@ import ru.sber.codetasks.dto.comment.CreateUpdateCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
-import ru.sber.codetasks.exception.CommentAlreadyLikedException;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public interface TaskService {
 
     void deleteTask(Long id);
 
-    TaskUserDto getTask(Long id);
+    TaskUserDto getTask(Long id, String username);
 
     List<ReducedTaskDto> getTasks(int page, int size, List<Difficulty> difficulties,
                                   List<String> topics, List<String> languages);
@@ -30,5 +29,7 @@ public interface TaskService {
 
     void deleteComment(Long id, String username) throws AccessException;
 
-    void likeComment(Long id, String username) throws CommentAlreadyLikedException;
+    void likeComment(Long id, String username);
+
+    void unlikeComment(Long id, String username);
 }

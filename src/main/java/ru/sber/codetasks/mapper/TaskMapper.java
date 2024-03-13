@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.sber.codetasks.domain.ProgrammingLanguage;
 import ru.sber.codetasks.domain.Task;
 import ru.sber.codetasks.domain.TestCase;
+import ru.sber.codetasks.domain.User;
 import ru.sber.codetasks.dto.comment.GetCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
@@ -65,7 +66,7 @@ public class TaskMapper {
                         .collect(Collectors.toList()));
     }
 
-    public TaskUserDto mapTaskToTaskUserDto(Task task) {
+    public TaskUserDto mapTaskToTaskUserDto(Task task, User user) {
         var taskUserDto = new TaskUserDto();
         taskUserDto.setName(task.getName());
         taskUserDto.setCondition(task.getCondition());
@@ -81,8 +82,8 @@ public class TaskMapper {
                 .map(x -> new GetCommentDto(x.getId(),
                         x.getUser().getUsername(),
                         x.getCommentText(),
-                        666,
-                        false))
+                        x.getUsersLiked().size(),
+                        x.getUsersLiked().contains(user)))
                 .collect(Collectors.toList());
         taskUserDto.setComments(comments);
 

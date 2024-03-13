@@ -49,6 +49,8 @@ public class TaskServiceImpl implements TaskService {
 
     public static final String ALREADY_LIKED_MESSAGE = "Comment already liked ";
 
+    public static final String LIKE_NOT_FOUND_MESSAGE = "Like not found ";
+
     public TaskServiceImpl(TaskRepository taskRepository,
                            TestCaseRepository testCaseRepository,
                            UserRepository userRepository,
@@ -76,12 +78,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskUserDto getTask(Long id) {
+    public TaskUserDto getTask(Long id, String username) {
         var task = taskRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(TASK_NOT_FOUND_MESSAGE + id));
 
-        return taskMapper.mapTaskToTaskUserDto(task);
+        var user = userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
+
+        return taskMapper.mapTaskToTaskUserDto(task, user);
     }
 
     @Override
@@ -153,7 +159,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void likeComment(Long id, String username) throws CommentAlreadyLikedException {
+    public void likeComment(Long id, String username) {
         var comment = commentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + id));
 
@@ -166,6 +172,24 @@ public class TaskServiceImpl implements TaskService {
         }
 
         likedUsers.add(user);
+        comment.setUsersLiked(likedUsers);
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void unlikeComment(Long id, String username) {
+        var comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + id));
+
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
+
+        var likedUsers = comment.getUsersLiked();
+        if (!likedUsers.contains(user)) {
+            throw new EntityNotFoundException(LIKE_NOT_FOUND_MESSAGE);
+        }
+
+        likedUsers.remove(user);
         comment.setUsersLiked(likedUsers);
         commentRepository.save(comment);
     }

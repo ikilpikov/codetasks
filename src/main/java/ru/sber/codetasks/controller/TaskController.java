@@ -43,6 +43,8 @@ public class TaskController {
 
     public static final String COMMENT_LIKED_MESSAGE = "Comment liked successfully";
 
+    public static final String COMMENT_UNLIKED_MESSAGE = "Comment unliked successfully";
+
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
@@ -63,8 +65,8 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<TaskUserDto> getTask(@PathVariable Long id) {
-        return new ResponseEntity<>(taskService.getTask(id), HttpStatus.OK);
+    public ResponseEntity<TaskUserDto> getTask(@PathVariable Long id, Authentication authentication) {
+        return new ResponseEntity<>(taskService.getTask(id, authentication.getName()), HttpStatus.OK);
     }
 
     @GetMapping("/all")
@@ -121,6 +123,15 @@ public class TaskController {
 
         taskService.likeComment(id, authentication.getName());
         return new ResponseEntity<>(COMMENT_LIKED_MESSAGE, HttpStatus.OK);
+    }
+
+    @PostMapping("/comment/unlike/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> unlikeComment(@PathVariable Long id,
+                                              Authentication authentication) throws CommentAlreadyLikedException {
+
+        taskService.unlikeComment(id, authentication.getName());
+        return new ResponseEntity<>(COMMENT_UNLIKED_MESSAGE, HttpStatus.OK);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
