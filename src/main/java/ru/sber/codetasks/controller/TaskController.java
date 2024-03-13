@@ -14,6 +14,7 @@ import ru.sber.codetasks.dto.comment.CreateUpdateCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
+import ru.sber.codetasks.exception.CommentAlreadyLikedException;
 import ru.sber.codetasks.service.TaskService;
 
 import javax.persistence.EntityNotFoundException;
@@ -39,6 +40,8 @@ public class TaskController {
     public static final String COMMENT_ADDED_MESSAGE = "Comment added successfully";
 
     public static final String COMMENT_DELETED_MESSAGE = "Comment deleted successfully";
+
+    public static final String COMMENT_LIKED_MESSAGE = "Comment liked successfully";
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
@@ -114,10 +117,10 @@ public class TaskController {
     @PostMapping("/comment/like/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> likeComment(@PathVariable Long id,
-                                                Authentication authentication) throws AccessException {
+                                                Authentication authentication) throws CommentAlreadyLikedException {
 
         taskService.likeComment(id, authentication.getName());
-        return new ResponseEntity<>(COMMENT_DELETED_MESSAGE, HttpStatus.OK);
+        return new ResponseEntity<>(COMMENT_LIKED_MESSAGE, HttpStatus.OK);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -137,6 +140,11 @@ public class TaskController {
 
     @ExceptionHandler(AccessException.class)
     public ResponseEntity<String> accessExceptionHandler(AccessException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(CommentAlreadyLikedException.class)
+    public ResponseEntity<String> commentAlreadyLikedExceptionHandler(CommentAlreadyLikedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 

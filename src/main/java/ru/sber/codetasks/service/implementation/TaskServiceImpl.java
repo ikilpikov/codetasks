@@ -13,6 +13,7 @@ import ru.sber.codetasks.dto.comment.CreateUpdateCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
+import ru.sber.codetasks.exception.CommentAlreadyLikedException;
 import ru.sber.codetasks.mapper.TaskMapper;
 import ru.sber.codetasks.repository.CommentRepository;
 import ru.sber.codetasks.repository.TaskRepository;
@@ -45,6 +46,8 @@ public class TaskServiceImpl implements TaskService {
     public static final String USER_NOT_FOUND_MESSAGE = "User not found ";
 
     public static final String NO_RIGHTS_MESSAGE = "No rights";
+
+    public static final String ALREADY_LIKED_MESSAGE = "Comment already liked ";
 
     public TaskServiceImpl(TaskRepository taskRepository,
                            TestCaseRepository testCaseRepository,
@@ -117,9 +120,9 @@ public class TaskServiceImpl implements TaskService {
                            String username) {
 
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new EntityNotFoundException("Task not found " + taskId));
+                .orElseThrow(() -> new EntityNotFoundException(TASK_NOT_FOUND_MESSAGE + taskId));
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found " + username));
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
 
         Comment comment = new Comment();
         comment.setCommentText(createUpdateCommentDto.getText());
@@ -150,8 +153,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void likeComment(Long id, String username) {
+    public void likeComment(Long id, String username) throws CommentAlreadyLikedException {
+        var comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + id));
 
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
+
+        var likedUsers = comment.getUsersLiked();
+        if (likedUsers.contains(user)) {
+            throw new CommentAlreadyLikedException(ALREADY_LIKED_MESSAGE);
+        }
+
+        likedUsers.add(user);
+        comment.setUsersLiked(likedUsers);
+        commentRepository.save(comment);
     }
 
     private boolean canCommentBeDeleted(User user, Comment comment) {

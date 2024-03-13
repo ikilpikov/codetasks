@@ -61,6 +61,12 @@ public class Comment {
         this.commentText = commentText;
     }
 
+    public List<User> getUsersLiked() {
+        return usersLiked;
+    }
 
+    public void setUsersLiked(List<User> usersLiked) {
+        this.usersLiked = usersLiked;
+    }
 
 }
