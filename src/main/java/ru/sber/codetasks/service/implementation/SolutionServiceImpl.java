@@ -8,6 +8,7 @@ import ru.sber.codetasks.dto.code_execution.ExecutionRequestDto;
 import ru.sber.codetasks.dto.code_execution.ExecutionResultDto;
 import ru.sber.codetasks.dto.solution.SolutionAttemptDto;
 import ru.sber.codetasks.dto.solution.SolutionResponseDto;
+import ru.sber.codetasks.mapper.SolutionMapper;
 import ru.sber.codetasks.repository.SolutionRepository;
 import ru.sber.codetasks.repository.TaskRepository;
 import ru.sber.codetasks.repository.UserRepository;
@@ -29,6 +30,8 @@ public class SolutionServiceImpl implements SolutionService {
 
     private final UserRepository userRepository;
 
+    private final SolutionMapper solutionMapper;
+
     public static final String TASK_NOT_FOUND_MESSAGE = "Task not found: ";
 
     public static final String USER_NOT_FOUND_MESSAGE = "User not found ";
@@ -40,11 +43,13 @@ public class SolutionServiceImpl implements SolutionService {
     public SolutionServiceImpl(CodeExecutionService codeExecutionService,
                                TaskRepository taskRepository,
                                SolutionRepository solutionRepository,
-                               UserRepository userRepository) {
+                               UserRepository userRepository,
+                               SolutionMapper solutionMapper) {
         this.codeExecutionService = codeExecutionService;
         this.taskRepository = taskRepository;
         this.solutionRepository = solutionRepository;
         this.userRepository = userRepository;
+        this.solutionMapper = solutionMapper;
     }
 
     @Override
@@ -89,21 +94,17 @@ public class SolutionServiceImpl implements SolutionService {
         return response;
     }
 
-    private ExecutionRequestDto map(SolutionAttemptDto solutionAttemptDto, String stdin) {
-        var executionRequestDto = new ExecutionRequestDto();
-        executionRequestDto.setCode(solutionAttemptDto.getCode());
-        executionRequestDto.setStdin(stdin);
-        executionRequestDto.setLanguage(solutionAttemptDto.getLanguage());
-        return executionRequestDto;
-    }
-
     private int executeTestCases(List<TestCase> testCases,
                                  SolutionAttemptDto solutionAttemptDto) throws JsonProcessingException {
 
         var executionTime = 0;
 
         for (var testcase : testCases) {
-            var executionResult = codeExecutionService.executeCode(map(solutionAttemptDto, testcase.getInputData()));
+            var executionResult = codeExecutionService.
+                    executeCode(solutionMapper
+                            .mapSolutionAttemptDtoToExecutionRequestDto(solutionAttemptDto,
+                            testcase.getInputData()));
+
             if (!executionResult.getStdout().trim().equals(testcase.getOutputData())) {
                 return -1;
             }
