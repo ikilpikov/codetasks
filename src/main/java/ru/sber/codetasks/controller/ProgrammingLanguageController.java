@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/programming-language")
+@CrossOrigin(origins = "*")
 public class ProgrammingLanguageController {
     private final ProgrammingLanguageService programmingLanguageService;
 

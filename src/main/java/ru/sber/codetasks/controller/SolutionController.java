@@ -12,17 +12,18 @@ import ru.sber.codetasks.dto.code_execution.ExecutionResultDto;
 import ru.sber.codetasks.dto.solution.SolutionAttemptDto;
 import ru.sber.codetasks.dto.solution.SolutionResponseDto;
 import ru.sber.codetasks.dto.solution.SolutionUserDto;
-import ru.sber.codetasks.service.implementation.SolutionServiceImpl;
+import ru.sber.codetasks.service.SolutionService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/solution")
+@CrossOrigin(origins = "*")
 public class SolutionController {
-    private final SolutionServiceImpl solutionService;
+    private final SolutionService solutionService;
 
-    public SolutionController(SolutionServiceImpl solutionService) {
+    public SolutionController(SolutionService solutionService) {
         this.solutionService = solutionService;
     }
 
