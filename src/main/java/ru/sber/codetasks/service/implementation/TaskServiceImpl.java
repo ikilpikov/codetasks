@@ -199,7 +199,7 @@ public class TaskServiceImpl implements TaskService {
             return true;
         }
 
-        if (user.getRole() == Role.ROLE_MODERATOR || user.getRole() == Role.ROLE_ADMIN) {
+        if (user.getRole() == Role.ROLE_ADMIN) {
             return true;
         }
 
