@@ -9,7 +9,7 @@ import ru.sber.codetasks.domain.Task;
 import ru.sber.codetasks.domain.User;
 import ru.sber.codetasks.domain.enums.Difficulty;
 import ru.sber.codetasks.domain.enums.Role;
-import ru.sber.codetasks.dto.comment.CreateUpdateCommentDto;
+import ru.sber.codetasks.dto.comment.CreateCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
@@ -23,6 +23,7 @@ import ru.sber.codetasks.service.TaskService;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -122,7 +123,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void addComment(Long taskId,
-                           CreateUpdateCommentDto createUpdateCommentDto,
+                           CreateCommentDto createCommentDto,
                            String username) {
 
         Task task = taskRepository.findById(taskId)
@@ -131,9 +132,10 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
 
         Comment comment = new Comment();
-        comment.setCommentText(createUpdateCommentDto.getText());
+        comment.setCommentText(createCommentDto.getText());
         comment.setTask(task);
         comment.setUser(user);
+        comment.setPostDate(new Timestamp(System.currentTimeMillis()));
 
         List<Comment> comments = task.getComments();
         comments.add(comment);

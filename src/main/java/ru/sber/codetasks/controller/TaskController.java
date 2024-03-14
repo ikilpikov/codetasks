@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.sber.codetasks.domain.enums.Difficulty;
-import ru.sber.codetasks.dto.comment.CreateUpdateCommentDto;
+import ru.sber.codetasks.dto.comment.CreateCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
@@ -101,7 +101,7 @@ public class TaskController {
     @PostMapping("/{id}/comment/add")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> addComment(@PathVariable Long id,
-                                             @RequestBody CreateUpdateCommentDto commentDto,
+                                             @RequestBody CreateCommentDto commentDto,
                                              Authentication authentication) {
 
         taskService.addComment(id, commentDto, authentication.getName());

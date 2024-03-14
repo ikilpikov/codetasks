@@ -83,7 +83,8 @@ public class TaskMapper {
                         x.getUser().getUsername(),
                         x.getCommentText(),
                         x.getUsersLiked().size(),
-                        x.getUsersLiked().contains(user)))
+                        x.getUsersLiked().contains(user),
+                        x.getPostDate()))
                 .collect(Collectors.toList());
         taskUserDto.setComments(comments);
 

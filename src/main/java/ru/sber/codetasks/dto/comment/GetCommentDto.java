@@ -1,5 +1,7 @@
 package ru.sber.codetasks.dto.comment;
 
+import java.sql.Timestamp;
+
 public class GetCommentDto {
     private Long id;
 
@@ -11,12 +13,20 @@ public class GetCommentDto {
 
     private boolean isLiked;
 
-    public GetCommentDto(Long id, String username, String commentText, int likes, boolean isLiked) {
+    private Timestamp postDate;
+
+    public GetCommentDto(Long id,
+                         String username,
+                         String commentText,
+                         int likes,
+                         boolean isLiked,
+                         Timestamp postDate) {
         this.id = id;
         this.username = username;
         this.commentText = commentText;
         this.likes = likes;
         this.isLiked = isLiked;
+        this.postDate = postDate;
     }
 
     public void setId(Long id) {
@@ -57,6 +67,14 @@ public class GetCommentDto {
 
     public void setLiked(boolean liked) {
         isLiked = liked;
+    }
+
+    public Timestamp getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Timestamp postDate) {
+        this.postDate = postDate;
     }
 
 }

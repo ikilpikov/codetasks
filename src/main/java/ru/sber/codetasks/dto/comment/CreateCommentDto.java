@@ -1,6 +1,6 @@
 package ru.sber.codetasks.dto.comment;
 
-public class CreateUpdateCommentDto {
+public class CreateCommentDto {
     private String text;
 
     public String getText() {

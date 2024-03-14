@@ -1,6 +1,7 @@
 package ru.sber.codetasks.domain;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -28,6 +29,9 @@ public class Comment {
             inverseJoinColumns = @JoinColumn(name = "\"user\"")
     )
     private List<User> usersLiked;
+
+    @Column(name = "post_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp postDate;
 
     public Long getId() {
         return id;
@@ -67,6 +71,14 @@ public class Comment {
 
     public void setUsersLiked(List<User> usersLiked) {
         this.usersLiked = usersLiked;
+    }
+
+    public Timestamp getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Timestamp postDate) {
+        this.postDate = postDate;
     }
 
 }
