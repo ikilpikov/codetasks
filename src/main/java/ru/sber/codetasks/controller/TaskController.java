@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.sber.codetasks.domain.enums.Difficulty;
 import ru.sber.codetasks.dto.comment.CreateCommentDto;
+import ru.sber.codetasks.dto.comment.LikeUnlikeCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
@@ -117,21 +118,21 @@ public class TaskController {
         return new ResponseEntity<>(COMMENT_DELETED_MESSAGE, HttpStatus.OK);
     }
 
-    @PostMapping("/comment/like/{id}")
+    @PostMapping("/comment/like")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> likeComment(@PathVariable Long id,
-                                                Authentication authentication) throws CommentAlreadyLikedException {
+    public ResponseEntity<String> likeComment(@RequestBody @Valid LikeUnlikeCommentDto likeUnlikeCommentDto,
+                                              Authentication authentication) throws CommentAlreadyLikedException {
 
-        taskService.likeComment(id, authentication.getName());
+        taskService.likeComment(likeUnlikeCommentDto, authentication.getName());
         return new ResponseEntity<>(COMMENT_LIKED_MESSAGE, HttpStatus.OK);
     }
 
-    @PostMapping("/comment/unlike/{id}")
+    @PostMapping("/comment/unlike")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> unlikeComment(@PathVariable Long id,
+    public ResponseEntity<String> unlikeComment(@RequestBody @Valid LikeUnlikeCommentDto likeUnlikeCommentDto,
                                               Authentication authentication) throws CommentAlreadyLikedException {
 
-        taskService.unlikeComment(id, authentication.getName());
+        taskService.unlikeComment(likeUnlikeCommentDto, authentication.getName());
         return new ResponseEntity<>(COMMENT_UNLIKED_MESSAGE, HttpStatus.OK);
     }
 

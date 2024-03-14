@@ -3,6 +3,7 @@ package ru.sber.codetasks.service;
 import org.springframework.expression.AccessException;
 import ru.sber.codetasks.domain.enums.Difficulty;
 import ru.sber.codetasks.dto.comment.CreateCommentDto;
+import ru.sber.codetasks.dto.comment.LikeUnlikeCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
@@ -29,7 +30,7 @@ public interface TaskService {
 
     void deleteComment(Long id, String username) throws AccessException;
 
-    void likeComment(Long id, String username);
+    void likeComment(LikeUnlikeCommentDto likeUnlikeCommentDto, String username);
 
-    void unlikeComment(Long id, String username);
+    void unlikeComment(LikeUnlikeCommentDto likeUnlikeCommentDto, String username);
 }

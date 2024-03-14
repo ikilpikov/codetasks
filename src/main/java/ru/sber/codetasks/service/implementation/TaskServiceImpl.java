@@ -10,6 +10,7 @@ import ru.sber.codetasks.domain.User;
 import ru.sber.codetasks.domain.enums.Difficulty;
 import ru.sber.codetasks.domain.enums.Role;
 import ru.sber.codetasks.dto.comment.CreateCommentDto;
+import ru.sber.codetasks.dto.comment.LikeUnlikeCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
@@ -161,9 +162,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void likeComment(Long id, String username) {
-        var comment = commentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + id));
+    public void likeComment(LikeUnlikeCommentDto likeUnlikeCommentDto, String username) {
+        var commentId = likeUnlikeCommentDto.getId();
+        var comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + commentId));
 
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
@@ -179,9 +181,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void unlikeComment(Long id, String username) {
-        var comment = commentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + id));
+    public void unlikeComment(LikeUnlikeCommentDto likeUnlikeCommentDto, String username) {
+        var commentId = likeUnlikeCommentDto.getId();
+        var comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND_MESSAGE + commentId));
 
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
