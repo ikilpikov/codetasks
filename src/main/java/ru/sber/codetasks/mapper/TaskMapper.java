@@ -13,6 +13,7 @@ import ru.sber.codetasks.repository.ProgrammingLanguageRepository;
 import ru.sber.codetasks.repository.TopicRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Component
@@ -85,6 +86,7 @@ public class TaskMapper {
                         x.getUsersLiked().size(),
                         x.getUsersLiked().contains(user),
                         x.getPostDate()))
+                .sorted(Comparator.comparing(GetCommentDto::getPostDate).reversed())
                 .collect(Collectors.toList());
         taskUserDto.setComments(comments);
 
