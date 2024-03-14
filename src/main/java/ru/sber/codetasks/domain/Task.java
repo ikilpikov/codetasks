@@ -40,6 +40,9 @@ public class Task {
     )
     private List<ProgrammingLanguage> languages;
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    private List<Solution> solutions;
+
     public Long getId() {
         return id;
     }
@@ -102,6 +105,14 @@ public class Task {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Solution> getSolutions() {
+        return solutions;
+    }
+
+    public void setSolutions(List<Solution> solutions) {
+        this.solutions = solutions;
     }
 
 }

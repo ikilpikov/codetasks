@@ -1,13 +1,17 @@
 package ru.sber.codetasks.service.implementation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.expression.AccessException;
 import org.springframework.stereotype.Service;
 import ru.sber.codetasks.domain.Solution;
+import ru.sber.codetasks.domain.Task;
 import ru.sber.codetasks.domain.TestCase;
+import ru.sber.codetasks.domain.User;
 import ru.sber.codetasks.dto.code_execution.ExecutionRequestDto;
 import ru.sber.codetasks.dto.code_execution.ExecutionResultDto;
 import ru.sber.codetasks.dto.solution.SolutionAttemptDto;
 import ru.sber.codetasks.dto.solution.SolutionResponseDto;
+import ru.sber.codetasks.dto.solution.SolutionUserDto;
 import ru.sber.codetasks.mapper.SolutionMapper;
 import ru.sber.codetasks.repository.SolutionRepository;
 import ru.sber.codetasks.repository.TaskRepository;
@@ -18,6 +22,7 @@ import ru.sber.codetasks.service.SolutionService;
 import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SolutionServiceImpl implements SolutionService {
@@ -36,9 +41,11 @@ public class SolutionServiceImpl implements SolutionService {
 
     public static final String USER_NOT_FOUND_MESSAGE = "User not found ";
 
-    public static final String SUCCESS_MESSAGE = "Solution accepted";
+    public static final String SUCCESS_MESSAGE = "Solution accepted ";
 
-    public static final String FAIL_MESSAGE = "Solution not accepted";
+    public static final String FAIL_MESSAGE = "Solution not accepted ";
+
+    public static final String NO_RIGHTS_MESSAGE = "Task is not solved ";
 
     public SolutionServiceImpl(CodeExecutionService codeExecutionService,
                                TaskRepository taskRepository,
@@ -94,6 +101,36 @@ public class SolutionServiceImpl implements SolutionService {
         return response;
     }
 
+    @Override
+    public List<SolutionUserDto> getAllSolutionsForTask(Long taskId, String username) throws AccessException {
+        var task = taskRepository
+                .findById(taskId)
+                .orElseThrow(() -> new EntityNotFoundException(TASK_NOT_FOUND_MESSAGE + taskId));
+
+        var user = userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
+
+        if (!isAllowedCheckingSolutions(task, user)) {
+            throw new AccessException(NO_RIGHTS_MESSAGE);
+        }
+
+        return task
+                .getSolutions()
+                .stream()
+                .filter(x -> x.getTask().getId().equals(taskId))
+                .map(x -> {
+                    SolutionUserDto dto = new SolutionUserDto();
+                    dto.setId(x.getId());
+                    dto.setCode(x.getCode());
+                    dto.setUsername(x.getUser().getUsername());
+                    dto.setSubmissionDate(x.getSubmissionDate());
+                    dto.setSubmissionTime(x.getExecutionTime());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
     private int executeTestCases(List<TestCase> testCases,
                                  SolutionAttemptDto solutionAttemptDto) throws JsonProcessingException {
 
@@ -112,6 +149,14 @@ public class SolutionServiceImpl implements SolutionService {
         }
 
         return executionTime;
+    }
+
+    private boolean isAllowedCheckingSolutions(Task task, User user) {
+        return task
+                .getSolutions()
+                .stream()
+                .map(x -> x.getUser().getId())
+                .anyMatch(x -> x.equals(user.getId()));
     }
 
 }
