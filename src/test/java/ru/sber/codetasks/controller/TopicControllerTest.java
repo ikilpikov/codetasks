@@ -1,19 +1,19 @@
 package ru.sber.codetasks.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.sber.codetasks.dto.topic.ReducedTopicDto;
 import ru.sber.codetasks.dto.topic.TopicDto;
-import ru.sber.codetasks.security.SecurityConfig;
 import ru.sber.codetasks.service.TopicService;
 
 import javax.persistence.EntityNotFoundException;
@@ -25,8 +25,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Disabled
 @WebMvcTest(TopicController.class)
+@AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles("test")
 class TopicControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -38,6 +39,7 @@ class TopicControllerTest {
     private TopicService topicService;
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void add_valid_topic() throws Exception {
         doNothing().when(topicService).createTopic(any(ReducedTopicDto.class));
 
@@ -52,6 +54,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void add_invalid_topic() throws Exception {
         doNothing().when(topicService).createTopic(any(ReducedTopicDto.class));
 
@@ -64,6 +67,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void remove_existing_topic() throws Exception {
         doNothing().when(topicService).deleteTopic(anyLong());
         Long topicId = 1L;
@@ -75,6 +79,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void remove_not_existing_topic() throws Exception {
         doThrow(EntityNotFoundException.class).when(topicService).deleteTopic(anyLong());
         Long topicId = 1L;
@@ -84,6 +89,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void remove_constraint_violation_topic() throws Exception {
         doThrow(DataIntegrityViolationException.class).when(topicService).deleteTopic(anyLong());
         Long topicId = 1L;
@@ -93,6 +99,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void get_existing_topic() throws Exception {
         ReducedTopicDto reducedTopicDto = getValidReducedTopicDto();
         when(topicService.getTopic(anyLong())).thenReturn(reducedTopicDto);
@@ -106,6 +113,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser
     void get_not_existing_topic() throws Exception {
         doThrow(EntityNotFoundException.class).when(topicService).getTopic(anyLong());
         Long topicId = 1L;
@@ -115,6 +123,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser
     void get_all_topics() throws Exception {
         when(topicService.getTopics())
                 .thenReturn(List.of(getValidTopicDto()));
@@ -127,6 +136,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void update_existing_topic() throws Exception {
         doNothing().when(topicService)
                 .updateTopic(any(Long.class), any(ReducedTopicDto.class));
@@ -144,6 +154,7 @@ class TopicControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void update_not_existing_topic() throws Exception {
         doThrow(EntityNotFoundException.class)
                 .when(topicService).updateTopic(any(Long.class), any(ReducedTopicDto.class));
