@@ -1,15 +1,17 @@
 package ru.sber.codetasks.dto.solution;
 
+import ru.sber.codetasks.enums.SolutionResult;
+
 public class SolutionResponseDto {
-    private String status;
+    private SolutionResult status;
 
     private int time;
 
-    public String getStatus() {
+    public SolutionResult getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(SolutionResult status) {
         this.status = status;
     }
 

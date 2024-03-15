@@ -12,6 +12,7 @@ import ru.sber.codetasks.dto.code_execution.ExecutionResultDto;
 import ru.sber.codetasks.dto.solution.SolutionAttemptDto;
 import ru.sber.codetasks.dto.solution.SolutionResponseDto;
 import ru.sber.codetasks.dto.solution.SolutionUserDto;
+import ru.sber.codetasks.enums.SolutionResult;
 import ru.sber.codetasks.mapper.SolutionMapper;
 import ru.sber.codetasks.repository.SolutionRepository;
 import ru.sber.codetasks.repository.TaskRepository;
@@ -40,10 +41,6 @@ public class SolutionServiceImpl implements SolutionService {
     public static final String TASK_NOT_FOUND_MESSAGE = "Task not found: ";
 
     public static final String USER_NOT_FOUND_MESSAGE = "User not found ";
-
-    public static final String SUCCESS_MESSAGE = "Solution accepted ";
-
-    public static final String FAIL_MESSAGE = "Solution not accepted ";
 
     public static final String NO_RIGHTS_MESSAGE = "Task is not solved ";
 
@@ -83,7 +80,7 @@ public class SolutionServiceImpl implements SolutionService {
         var executionTime = executeTestCases(testCases, solutionAttemptDto);
 
         if (executionTime == -1) {
-            response.setStatus(FAIL_MESSAGE);
+            response.setStatus(SolutionResult.NOT_ACCEPTED);
             response.setTime(0);
             return response;
         }
@@ -96,7 +93,7 @@ public class SolutionServiceImpl implements SolutionService {
         solution.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
         solutionRepository.save(solution);
 
-        response.setStatus(SUCCESS_MESSAGE);
+        response.setStatus(SolutionResult.ACCEPTED);
         response.setTime(executionTime);
         return response;
     }
