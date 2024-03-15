@@ -1,5 +1,6 @@
 package ru.sber.codetasks.controller;
 
+import annotation.WithMockAdmin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,8 +24,6 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -46,7 +41,7 @@ class TaskControllerTest {
     private TaskService taskService;
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void add_valid_task() throws Exception {
         doNothing().when(taskService).createTask(any(CreateUpdateTaskDto.class));
 
@@ -62,7 +57,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void add_invalid_task() throws Exception {
         doNothing().when(taskService).createTask(any(CreateUpdateTaskDto.class));
 
@@ -134,7 +129,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void update_existing_task() throws Exception {
         doNothing().when(taskService)
                 .updateTask(any(Long.class), any(CreateUpdateTaskDto.class));
@@ -152,7 +147,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void update_not_existing_task() throws Exception {
         doThrow(EntityNotFoundException.class)
                 .when(taskService).updateTask(any(Long.class), any(CreateUpdateTaskDto.class));

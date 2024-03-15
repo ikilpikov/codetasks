@@ -1,5 +1,6 @@
 package ru.sber.codetasks.controller;
 
+import annotation.WithMockAdmin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ class ProgrammingLanguageControllerTest {
     private ProgrammingLanguageService programmingLanguageService;
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void add_valid_language() throws Exception {
         doNothing().when(programmingLanguageService)
                 .createProgrammingLanguage(any(ReducedProgrammingLanguageDto.class));
@@ -55,7 +56,7 @@ class ProgrammingLanguageControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void add_invalid_language() throws Exception {
         doNothing().when(programmingLanguageService)
                 .createProgrammingLanguage(any(ReducedProgrammingLanguageDto.class));
@@ -69,7 +70,7 @@ class ProgrammingLanguageControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void remove_existing_language() throws Exception {
         doNothing().when(programmingLanguageService).deleteProgrammingLanguage(anyLong());
         Long languageId = 1L;
@@ -81,7 +82,7 @@ class ProgrammingLanguageControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void remove_not_existing_language() throws Exception {
         doThrow(EntityNotFoundException.class).when(programmingLanguageService)
                 .deleteProgrammingLanguage(anyLong());
@@ -92,7 +93,7 @@ class ProgrammingLanguageControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void remove_constraint_violation_language() throws Exception {
         doThrow(DataIntegrityViolationException.class).when(programmingLanguageService)
                 .deleteProgrammingLanguage(anyLong());
@@ -141,7 +142,7 @@ class ProgrammingLanguageControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void update_existing_language() throws Exception {
         doNothing().when(programmingLanguageService)
                 .updateProgrammingLanguage(any(Long.class), any(ReducedProgrammingLanguageDto.class));
@@ -159,7 +160,7 @@ class ProgrammingLanguageControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void update_not_existing_language() throws Exception {
         doThrow(EntityNotFoundException.class)
                 .when(programmingLanguageService)

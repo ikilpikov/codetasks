@@ -1,5 +1,6 @@
 package ru.sber.codetasks.controller;
 
+import annotation.WithMockAdmin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ class TopicControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void add_invalid_topic() throws Exception {
         doNothing().when(topicService).createTopic(any(ReducedTopicDto.class));
 
@@ -67,7 +68,7 @@ class TopicControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void remove_existing_topic() throws Exception {
         doNothing().when(topicService).deleteTopic(anyLong());
         Long topicId = 1L;
@@ -79,7 +80,7 @@ class TopicControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void remove_not_existing_topic() throws Exception {
         doThrow(EntityNotFoundException.class).when(topicService).deleteTopic(anyLong());
         Long topicId = 1L;
@@ -89,7 +90,7 @@ class TopicControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void remove_constraint_violation_topic() throws Exception {
         doThrow(DataIntegrityViolationException.class).when(topicService).deleteTopic(anyLong());
         Long topicId = 1L;
@@ -99,7 +100,7 @@ class TopicControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void get_existing_topic() throws Exception {
         ReducedTopicDto reducedTopicDto = getValidReducedTopicDto();
         when(topicService.getTopic(anyLong())).thenReturn(reducedTopicDto);
@@ -136,7 +137,7 @@ class TopicControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void update_existing_topic() throws Exception {
         doNothing().when(topicService)
                 .updateTopic(any(Long.class), any(ReducedTopicDto.class));
@@ -154,7 +155,7 @@ class TopicControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
+    @WithMockAdmin
     void update_not_existing_topic() throws Exception {
         doThrow(EntityNotFoundException.class)
                 .when(topicService).updateTopic(any(Long.class), any(ReducedTopicDto.class));
