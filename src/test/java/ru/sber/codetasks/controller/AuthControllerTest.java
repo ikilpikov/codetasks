@@ -11,8 +11,8 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.sber.codetasks.dto.auth.LoginRequest;
-import ru.sber.codetasks.dto.auth.RegisterRequest;
+import ru.sber.codetasks.dto.auth.LoginRequestDto;
+import ru.sber.codetasks.dto.auth.RegisterRequestDto;
 import ru.sber.codetasks.service.UserService;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
@@ -39,11 +39,11 @@ class AuthControllerTest {
     @Test
     @WithAnonymousUser
     void register_valid_user() throws Exception {
-        when(userService.registerUser(any(RegisterRequest.class)))
+        when(userService.registerUser(any(RegisterRequestDto.class)))
                 .thenReturn(Map.of("token", "token"));
 
-        RegisterRequest registerRequest = getValidRegisterRequest();
-        String jsonContent = objectMapper.writeValueAsString(registerRequest);
+        RegisterRequestDto registerRequestDto = getValidRegisterRequest();
+        String jsonContent = objectMapper.writeValueAsString(registerRequestDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -55,8 +55,8 @@ class AuthControllerTest {
     @Test
     @WithAnonymousUser
     void register_invalid_user() throws Exception {
-        RegisterRequest registerRequest = new RegisterRequest();
-        String jsonContent = objectMapper.writeValueAsString(registerRequest);
+        RegisterRequestDto registerRequestDto = new RegisterRequestDto();
+        String jsonContent = objectMapper.writeValueAsString(registerRequestDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,7 +67,7 @@ class AuthControllerTest {
     @Test
     @WithAnonymousUser
     void register_already_existing_user() throws Exception {
-        when(userService.registerUser(any(RegisterRequest.class)))
+        when(userService.registerUser(any(RegisterRequestDto.class)))
                 .thenThrow(KeyAlreadyExistsException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/auth/register")
@@ -78,11 +78,11 @@ class AuthControllerTest {
     @Test
     @WithAnonymousUser
     void authenticate_valid_user() throws Exception {
-        when(userService.authenticateUser(any(LoginRequest.class)))
+        when(userService.authenticateUser(any(LoginRequestDto.class)))
                 .thenReturn(Map.of("token", "token"));
 
-        LoginRequest loginRequest = getValidLoginRequest();
-        String jsonContent = objectMapper.writeValueAsString(loginRequest);
+        LoginRequestDto loginRequestDto = getValidLoginRequest();
+        String jsonContent = objectMapper.writeValueAsString(loginRequestDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -91,12 +91,12 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.token").value("token"));
     }
 
-    private RegisterRequest getValidRegisterRequest() {
-        return new RegisterRequest("user", "pass");
+    private RegisterRequestDto getValidRegisterRequest() {
+        return new RegisterRequestDto("user", "pass");
     }
 
-    private LoginRequest getValidLoginRequest() {
-        return new LoginRequest("user", "pass");
+    private LoginRequestDto getValidLoginRequest() {
+        return new LoginRequestDto("user", "pass");
     }
 
 }

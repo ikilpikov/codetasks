@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class RegisterRequest {
+public class RegisterRequestDto {
     @Size(min = 3, max = 40, message = "Username must be from 3 to 40 characters long")
     @Pattern(regexp = "^\\w*$", message = "Username should contain characters, digits and underscore")
     private String username;
@@ -13,12 +13,12 @@ public class RegisterRequest {
     @Size(min = 4, max = 40, message = "Password must be from 4 to 40 characters long")
     private String password;
 
-    public RegisterRequest(String username, String password) {
+    public RegisterRequestDto(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public RegisterRequest() {
+    public RegisterRequestDto() {
     }
 
     public String getUsername() {

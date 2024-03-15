@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import ru.sber.codetasks.domain.User;
 import ru.sber.codetasks.repository.UserRepository;
 import ru.sber.codetasks.domain.enums.Role;
-import ru.sber.codetasks.dto.auth.LoginRequest;
-import ru.sber.codetasks.dto.auth.RegisterRequest;
+import ru.sber.codetasks.dto.auth.LoginRequestDto;
+import ru.sber.codetasks.dto.auth.RegisterRequestDto;
 import ru.sber.codetasks.security.TokenProvider;
 import ru.sber.codetasks.service.UserService;
 
@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> authenticateUser(LoginRequest loginRequest) {
-        return createToken(loginRequest.getUsername(), loginRequest.getPassword());
+    public Map<String, String> authenticateUser(LoginRequestDto loginRequestDto) {
+        return createToken(loginRequestDto.getUsername(), loginRequestDto.getPassword());
     }
 
     @Override
-    public Map<String, String> registerUser(RegisterRequest request) {
+    public Map<String, String> registerUser(RegisterRequestDto request) {
         if (userExists(request)) {
             throw new KeyAlreadyExistsException("User " + request.getUsername() + " already exists");
         }
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean userExists(RegisterRequest request) {
+    public boolean userExists(RegisterRequestDto request) {
         return userRepository.existsByUsername(request.getUsername());
     }
 

@@ -6,8 +6,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.codetasks.dto.auth.LoginRequest;
-import ru.sber.codetasks.dto.auth.RegisterRequest;
+import ru.sber.codetasks.dto.auth.LoginRequestDto;
+import ru.sber.codetasks.dto.auth.RegisterRequestDto;
 import ru.sber.codetasks.service.UserService;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
@@ -30,14 +30,14 @@ public class AuthController {
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public Map<String, String> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
-        return userService.registerUser(registerRequest);
+    public Map<String, String> registerUser(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+        return userService.registerUser(registerRequestDto);
     }
 
     @PostMapping("/login")
     @PreAuthorize("isAnonymous()")
-    public Map<String, String> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        return userService.authenticateUser(loginRequest);
+    public Map<String, String> authenticateUser(@RequestBody LoginRequestDto loginRequestDto) {
+        return userService.authenticateUser(loginRequestDto);
     }
 
     @ExceptionHandler({BadCredentialsException.class})
