@@ -104,14 +104,14 @@ public class TaskController {
     @PostMapping("/{id}/comment/add")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> addComment(@PathVariable Long id,
-                                             @RequestBody CreateCommentDto commentDto) {
+                                             @Valid @RequestBody CreateCommentDto commentDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         taskService.addComment(id, commentDto, authentication.getName());
         return new ResponseEntity<>(COMMENT_ADDED_MESSAGE, HttpStatus.OK);
     }
 
-    @PostMapping("/comment/delete/{id}")
+    @DeleteMapping("/comment/delete/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> deleteComment(@PathVariable Long id) throws AccessException {
 
