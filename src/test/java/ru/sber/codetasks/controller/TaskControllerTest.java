@@ -1,13 +1,18 @@
 package ru.sber.codetasks.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.sber.codetasks.domain.enums.Difficulty;
@@ -15,7 +20,6 @@ import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
 import ru.sber.codetasks.dto.testcase.NewTestCaseDto;
-import ru.sber.codetasks.security.SecurityConfig;
 import ru.sber.codetasks.service.TaskService;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,11 +27,14 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Disabled
 @WebMvcTest(TaskController.class)
+@AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles("test")
 class TaskControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -39,6 +46,7 @@ class TaskControllerTest {
     private TaskService taskService;
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void add_valid_task() throws Exception {
         doNothing().when(taskService).createTask(any(CreateUpdateTaskDto.class));
 
@@ -54,6 +62,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void add_invalid_task() throws Exception {
         doNothing().when(taskService).createTask(any(CreateUpdateTaskDto.class));
 
@@ -66,6 +75,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void remove_existing_task() throws Exception {
         doNothing().when(taskService).deleteTask(anyLong());
         Long taskId = 1L;
@@ -77,6 +87,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void remove_not_existing_task() throws Exception {
         doThrow(EntityNotFoundException.class).when(taskService).deleteTask(anyLong());
         Long taskId = 1L;
@@ -86,10 +97,11 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser
     void get_existing_task() throws Exception {
         TaskUserDto taskUserDto = getValidTaskUserDto();
 
-        when(taskService.getTask(1L)).thenReturn(taskUserDto);
+        when(taskService.getTask(anyLong(), anyString())).thenReturn(taskUserDto);
 
         mockMvc.perform(get("/task/{id}", 1L))
                 .andExpect(status().isOk())
@@ -98,14 +110,16 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser
     void get_not_existing_task() throws Exception {
-        doThrow(EntityNotFoundException.class).when(taskService).getTask(anyLong());
+        doThrow(EntityNotFoundException.class).when(taskService).getTask(1L, "user");
 
         mockMvc.perform(get("/task/{id}", 1L))
                 .andExpect(status().isNotFound());
     }
 
     @Test
+    @WithMockUser
     void get_all_tasks() throws Exception {
         when(taskService.getTasks(anyInt(), anyInt(), any(), any(), any()))
                 .thenReturn(List.of(getValidReducedTaskDto()));
@@ -120,6 +134,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void update_existing_task() throws Exception {
         doNothing().when(taskService)
                 .updateTask(any(Long.class), any(CreateUpdateTaskDto.class));
@@ -137,6 +152,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     void update_not_existing_task() throws Exception {
         doThrow(EntityNotFoundException.class)
                 .when(taskService).updateTask(any(Long.class), any(CreateUpdateTaskDto.class));

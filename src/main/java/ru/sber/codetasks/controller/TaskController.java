@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -67,7 +68,8 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<TaskUserDto> getTask(@PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<TaskUserDto> getTask(@PathVariable Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new ResponseEntity<>(taskService.getTask(id, authentication.getName()), HttpStatus.OK);
     }
 
@@ -102,36 +104,38 @@ public class TaskController {
     @PostMapping("/{id}/comment/add")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> addComment(@PathVariable Long id,
-                                             @RequestBody CreateCommentDto commentDto,
-                                             Authentication authentication) {
+                                             @RequestBody CreateCommentDto commentDto) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         taskService.addComment(id, commentDto, authentication.getName());
         return new ResponseEntity<>(COMMENT_ADDED_MESSAGE, HttpStatus.OK);
     }
 
     @PostMapping("/comment/delete/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> deleteComment(@PathVariable Long id,
-                                                Authentication authentication) throws AccessException {
+    public ResponseEntity<String> deleteComment(@PathVariable Long id) throws AccessException {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         taskService.deleteComment(id, authentication.getName());
         return new ResponseEntity<>(COMMENT_DELETED_MESSAGE, HttpStatus.OK);
     }
 
     @PostMapping("/comment/like")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> likeComment(@RequestBody @Valid LikeUnlikeCommentDto likeUnlikeCommentDto,
-                                              Authentication authentication) throws CommentAlreadyLikedException {
+    public ResponseEntity<String> likeComment(@RequestBody @Valid LikeUnlikeCommentDto likeUnlikeCommentDto)
+            throws CommentAlreadyLikedException {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         taskService.likeComment(likeUnlikeCommentDto, authentication.getName());
         return new ResponseEntity<>(COMMENT_LIKED_MESSAGE, HttpStatus.OK);
     }
 
     @PostMapping("/comment/unlike")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> unlikeComment(@RequestBody @Valid LikeUnlikeCommentDto likeUnlikeCommentDto,
-                                              Authentication authentication) throws CommentAlreadyLikedException {
+    public ResponseEntity<String> unlikeComment(@RequestBody @Valid LikeUnlikeCommentDto likeUnlikeCommentDto)
+            throws CommentAlreadyLikedException {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         taskService.unlikeComment(likeUnlikeCommentDto, authentication.getName());
         return new ResponseEntity<>(COMMENT_UNLIKED_MESSAGE, HttpStatus.OK);
     }
