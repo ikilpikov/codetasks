@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class ProgrammingLanguageServiceImpl implements ProgrammingLanguageService {
     private final ProgrammingLanguageRepository programmingLanguageRepository;
 
-    public static final String LANGUAGE_NOT_FOUND_MESSAGE = "Programming language not found: ";
+    public static final String LANGUAGE_NOT_FOUND_MESSAGE = "Language not found: ";
 
     public ProgrammingLanguageServiceImpl(ProgrammingLanguageRepository programmingLanguageRepository) {
         this.programmingLanguageRepository = programmingLanguageRepository;
