@@ -134,6 +134,26 @@ class TaskControllerTest {
 
     @Test
     @WithMockAdmin
+    void get_existing_task_for_update() throws Exception {
+        when(taskService.getTaskForUpdating(anyLong())).thenReturn(getValidCreateUpdateTaskDto());
+
+        mockMvc.perform(get("/task/update/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name").value("task"));
+    }
+
+    @Test
+    @WithMockAdmin
+    void get_not_existing_task_for_update() throws Exception {
+        when(taskService.getTaskForUpdating(anyLong())).thenThrow(EntityNotFoundException.class);
+
+        mockMvc.perform(get("/task/update/{id}", 1L))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockAdmin
     void update_existing_task() throws Exception {
         doNothing().when(taskService)
                 .updateTask(any(Long.class), any(CreateUpdateTaskDto.class));
