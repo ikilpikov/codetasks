@@ -155,5 +155,4 @@ public class SolutionServiceImpl implements SolutionService {
                 .map(x -> x.getUser().getId())
                 .anyMatch(x -> x.equals(user.getId()));
     }
-
 }
