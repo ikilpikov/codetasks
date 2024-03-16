@@ -85,6 +85,14 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    @GetMapping("/update/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CreateUpdateTaskDto> getTaskForUpdate(@PathVariable Long id) {
+
+        var taskForUpdating = taskService.getTaskForUpdating(id);
+        return new ResponseEntity<>(taskForUpdating, HttpStatus.OK);
+    }
+
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> updateTask(@PathVariable Long id,

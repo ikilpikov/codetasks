@@ -9,6 +9,7 @@ import ru.sber.codetasks.dto.comment.GetCommentDto;
 import ru.sber.codetasks.dto.task.CreateUpdateTaskDto;
 import ru.sber.codetasks.dto.task.ReducedTaskDto;
 import ru.sber.codetasks.dto.task.TaskUserDto;
+import ru.sber.codetasks.dto.testcase.NewTestCaseDto;
 import ru.sber.codetasks.repository.ProgrammingLanguageRepository;
 import ru.sber.codetasks.repository.TopicRepository;
 
@@ -91,6 +92,20 @@ public class TaskMapper {
         taskUserDto.setComments(comments);
 
         return taskUserDto;
+    }
+
+    public CreateUpdateTaskDto mapTaskToCreateUpdateTaskDto(Task task) {
+        return new CreateUpdateTaskDto(task.getName(),
+                task.getCondition(),
+                task.getTopic().getName(),
+                task.getDifficulty(),
+                task.getLanguages().stream().map(ProgrammingLanguage::getName).collect(Collectors.toList()),
+                task.getTestCases().stream().map(x -> {
+                    NewTestCaseDto testCaseDto = new NewTestCaseDto();
+                    testCaseDto.setInputData(x.getInputData());
+                    testCaseDto.setOutputData(x.getOutputData());
+                    return testCaseDto;
+                }).collect(Collectors.toList()));
     }
 
 }

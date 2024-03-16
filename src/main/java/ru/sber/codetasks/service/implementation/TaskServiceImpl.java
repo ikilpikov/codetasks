@@ -93,6 +93,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public CreateUpdateTaskDto getTaskForUpdating(Long id) {
+        var task = taskRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(TASK_NOT_FOUND_MESSAGE + id));
+
+        return taskMapper.mapTaskToCreateUpdateTaskDto(task);
+    }
+
+    @Override
     public List<ReducedTaskDto> getTasks(int page, int size, List<Difficulty> difficulties,
                                          List<String> topics, List<String> languages) {
         Pageable pageable = PageRequest.of(page, size);

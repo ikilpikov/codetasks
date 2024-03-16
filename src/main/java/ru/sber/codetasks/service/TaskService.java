@@ -17,6 +17,8 @@ public interface TaskService {
 
     TaskUserDto getTask(Long id, String username);
 
+    CreateUpdateTaskDto getTaskForUpdating(Long id);
+
     List<ReducedTaskDto> getTasks(int page, int size, List<Difficulty> difficulties,
                                   List<String> topics, List<String> languages);
 
