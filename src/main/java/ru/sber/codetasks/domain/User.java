@@ -21,9 +21,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "rating", columnDefinition = "INT DEFAULT 0")
-    private int rating;
-
     public Long getId() {
         return id;
     }
@@ -56,12 +53,5 @@ public class User {
         this.role = role;
     }
 
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
 
 }
