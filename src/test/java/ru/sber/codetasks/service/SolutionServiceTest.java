@@ -10,7 +10,7 @@ import org.springframework.expression.AccessException;
 import ru.sber.codetasks.dto.code_execution.ExecutionRequestDto;
 import ru.sber.codetasks.dto.code_execution.ExecutionResultDto;
 import ru.sber.codetasks.dto.solution.SolutionAttemptDto;
-import ru.sber.codetasks.enums.SolutionResult;
+import ru.sber.codetasks.dto.enums.SolutionResult;
 import ru.sber.codetasks.mapper.SolutionMapper;
 import ru.sber.codetasks.repository.SolutionRepository;
 import ru.sber.codetasks.repository.TaskRepository;

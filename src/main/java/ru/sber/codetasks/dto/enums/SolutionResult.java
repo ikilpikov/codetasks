@@ -1,4 +1,4 @@
-package ru.sber.codetasks.enums;
+package ru.sber.codetasks.dto.enums;
 
 public enum SolutionResult {
     NOT_ACCEPTED,

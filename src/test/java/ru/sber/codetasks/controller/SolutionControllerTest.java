@@ -16,7 +16,7 @@ import ru.sber.codetasks.dto.code_execution.ExecutionResultDto;
 import ru.sber.codetasks.dto.solution.SolutionAttemptDto;
 import ru.sber.codetasks.dto.solution.SolutionResponseDto;
 import ru.sber.codetasks.dto.solution.SolutionUserDto;
-import ru.sber.codetasks.enums.SolutionResult;
+import ru.sber.codetasks.dto.enums.SolutionResult;
 import ru.sber.codetasks.service.SolutionService;
 
 import java.sql.Timestamp;

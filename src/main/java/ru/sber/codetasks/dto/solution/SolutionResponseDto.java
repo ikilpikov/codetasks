@@ -1,6 +1,6 @@
 package ru.sber.codetasks.dto.solution;
 
-import ru.sber.codetasks.enums.SolutionResult;
+import ru.sber.codetasks.dto.enums.SolutionResult;
 
 public class SolutionResponseDto {
     private SolutionResult status;
