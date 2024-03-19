@@ -1,6 +1,6 @@
 import axios from "axios";
 const BASE = import.meta.env.VITE_API_URL;
-const Authorization = `Bearer ${localStorage.getItem("token")}`;
+
 export const authorization = async (userData: IUserData) => {
   const { userName, password } = userData;
   const response = await axios.post(BASE + "/auth/login", {
@@ -28,7 +28,7 @@ export const getAllTasks = async (request: Partial<ITasks> = {}) => {
     BASE + `/task/all?page=0&size=${size}${difficulties}${topics}${languages}`,
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -46,7 +46,7 @@ export interface ITask {
 export const getAllLanguages = async () => {
   const response = await axios(BASE + "/programming-language/all", {
     headers: {
-      Authorization: Authorization,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response;
@@ -55,7 +55,7 @@ export const getAllLanguages = async () => {
 export const getAllTopics = async () => {
   const response = await axios(BASE + "/topic/all", {
     headers: {
-      Authorization: Authorization,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response;
@@ -64,7 +64,7 @@ export const getAllTopics = async () => {
 export const getTaskCount = async () => {
   const response = await axios(BASE + "/task/count", {
     headers: {
-      Authorization: Authorization,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response;
@@ -73,7 +73,7 @@ export const getTaskCount = async () => {
 export const getTask = async (id: string) => {
   const response = await axios(BASE + `/task/${id}`, {
     headers: {
-      Authorization: Authorization,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response;
@@ -107,7 +107,7 @@ export const likeComment = async (data: ILikeComment) => {
     { id: commentId },
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -126,7 +126,7 @@ export const sendComment = async (data: IComment) => {
     { text: text },
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -153,7 +153,7 @@ export const executeCide = async (data: IExecute) => {
     },
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -175,7 +175,7 @@ export const attemptCode = async (data: IAttempt) => {
     },
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -193,7 +193,7 @@ export interface ISolution {
 export const getSolutions = async (taskId: number) => {
   const response = await axios(BASE + `/solution/all/${taskId}`, {
     headers: {
-      Authorization: Authorization,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response;
@@ -204,7 +204,7 @@ export const deleteComment = async (commentId: number) => {
     BASE + `/task/comment/delete/${commentId}`,
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -229,7 +229,7 @@ export const addProperty = async (data: IChangeProperty) => {
     },
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -240,7 +240,7 @@ export const deleteProperty = async (data: IChangeProperty) => {
   const { property, id } = data;
   const response = await axios.delete(BASE + `/${property}/delete/${id}`, {
     headers: {
-      Authorization: Authorization,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response;
@@ -255,7 +255,7 @@ export const updateProperty = async (data: IChangeProperty) => {
     },
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -289,7 +289,7 @@ export const addTask = async (data: ITaskData) => {
     },
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -299,7 +299,7 @@ export const addTask = async (data: ITaskData) => {
 export const deleteTask = async (id: number) => {
   const response = await axios.delete(BASE + `/task/delete/${id}`, {
     headers: {
-      Authorization: Authorization,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response;
@@ -322,7 +322,7 @@ export const updateTask = async (data: ITaskDataUpdate) => {
     },
     {
       headers: {
-        Authorization: Authorization,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
@@ -332,7 +332,7 @@ export const updateTask = async (data: ITaskDataUpdate) => {
 export const getTaskForUpdate = async (id: number) => {
   const response = await axios(BASE + `/task/update/${id}`, {
     headers: {
-      Authorization: Authorization,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response;
