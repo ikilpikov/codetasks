@@ -23,30 +23,14 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
+import static ru.sber.codetasks.controller.constants.Messages.*;
+
 
 @RestController
 @RequestMapping("/task")
 @CrossOrigin(origins = "*")
 public class TaskController {
     private final TaskService taskService;
-
-    public static final String TASK_ADDED_MESSAGE = "Task added successfully";
-
-    public static final String TASK_UPDATED_MESSAGE = "Task updated successfully";
-
-    public static final String TASK_DELETED_MESSAGE = "Task deleted successfully";
-
-    public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
-
-    public static final String ENUM_INVALID_MESSAGE = "Enum is invalid";
-
-    public static final String COMMENT_ADDED_MESSAGE = "Comment added successfully";
-
-    public static final String COMMENT_DELETED_MESSAGE = "Comment deleted successfully";
-
-    public static final String COMMENT_LIKED_MESSAGE = "Comment liked successfully";
-
-    public static final String COMMENT_UNLIKED_MESSAGE = "Comment unliked successfully";
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;

@@ -11,10 +11,11 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.sber.codetasks.service.implementation.constatns.Messages.*;
+
 @Service
 public class TopicServiceImpl implements TopicService {
     private final TopicRepository topicRepository;
-    public static final String TOPIC_NOT_FOUND_MESSAGE = "Topic not found: ";
 
     public TopicServiceImpl(TopicRepository topicRepository) {
         this.topicRepository = topicRepository;

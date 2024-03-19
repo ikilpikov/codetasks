@@ -11,11 +11,11 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.sber.codetasks.service.implementation.constatns.Messages.*;
+
 @Service
 public class ProgrammingLanguageServiceImpl implements ProgrammingLanguageService {
     private final ProgrammingLanguageRepository programmingLanguageRepository;
-
-    public static final String LANGUAGE_NOT_FOUND_MESSAGE = "Language not found: ";
 
     public ProgrammingLanguageServiceImpl(ProgrammingLanguageRepository programmingLanguageRepository) {
         this.programmingLanguageRepository = programmingLanguageRepository;

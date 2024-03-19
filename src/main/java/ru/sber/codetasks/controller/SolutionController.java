@@ -20,13 +20,13 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
+import static ru.sber.codetasks.controller.constants.Messages.FIELDS_INVALID_MESSAGE;
+
 @RestController
 @RequestMapping("/solution")
 @CrossOrigin(origins = "*")
 public class SolutionController {
     private final SolutionService solutionService;
-
-    private static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
 
     public SolutionController(SolutionService solutionService) {
         this.solutionService = solutionService;

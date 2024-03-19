@@ -25,6 +25,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.sber.codetasks.service.implementation.constatns.Messages.*;
+
 @Service
 public class SolutionServiceImpl implements SolutionService {
 
@@ -37,12 +39,6 @@ public class SolutionServiceImpl implements SolutionService {
     private final UserRepository userRepository;
 
     private final SolutionMapper solutionMapper;
-
-    public static final String TASK_NOT_FOUND_MESSAGE = "Task not found: ";
-
-    public static final String USER_NOT_FOUND_MESSAGE = "User not found ";
-
-    public static final String NO_RIGHTS_MESSAGE = "Task is not solved ";
 
     public SolutionServiceImpl(CodeExecutionService codeExecutionService,
                                TaskRepository taskRepository,
@@ -109,7 +105,7 @@ public class SolutionServiceImpl implements SolutionService {
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE + username));
 
         if (!isAllowedCheckingSolutions(task, user)) {
-            throw new AccessException(NO_RIGHTS_MESSAGE);
+            throw new AccessException(TASK_NOT_SOLVED_MESSAGE);
         }
 
         return task

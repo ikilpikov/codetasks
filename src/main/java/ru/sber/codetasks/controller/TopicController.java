@@ -14,22 +14,13 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
+import static ru.sber.codetasks.controller.constants.Messages.*;
+
 @RestController
 @RequestMapping("/topic")
 @CrossOrigin(origins = "*")
 public class TopicController {
     private final TopicService topicService;
-
-    public static final String TOPIC_ADDED_MESSAGE = "Topic added successfully";
-
-    public static final String TOPIC_DELETED_MESSAGE = "Topic deleted successfully";
-
-    public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
-
-    public static final String TOPIC_UPDATED_MESSAGE = "Topic updated successfully";
-
-    public static final String RELATION_VIOLATION_MESSAGE =
-            "Cannot delete cause this topic is related to a task";
 
     public TopicController(TopicService topicService) {
         this.topicService = topicService;
@@ -84,7 +75,7 @@ public class TopicController {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> dataIntegrityViolationException() {
-        return new ResponseEntity<>(RELATION_VIOLATION_MESSAGE,
+        return new ResponseEntity<>(TOPIC_RELATION_VIOLATION_MESSAGE,
                 HttpStatus.BAD_REQUEST);
     }
 

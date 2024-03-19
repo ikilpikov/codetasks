@@ -14,15 +14,14 @@ import javax.management.openmbean.KeyAlreadyExistsException;
 import javax.validation.Valid;
 import java.util.Map;
 
+import static ru.sber.codetasks.controller.constants.Messages.FIELDS_INVALID_MESSAGE;
+import static ru.sber.codetasks.controller.constants.Messages.CANNOT_AUTHENTICATE;
+
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "*")
 public class AuthController {
     private final UserService userService;
-
-    public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
-
-    public static final String CANNOT_AUTHENTICATE = "Cannot authenticate";
 
     public AuthController(UserService userService) {
         this.userService = userService;

@@ -28,6 +28,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.sber.codetasks.service.implementation.constatns.Messages.*;
+
 @Service
 public class TaskServiceImpl implements TaskService {
 
@@ -40,18 +42,6 @@ public class TaskServiceImpl implements TaskService {
     private final CommentRepository commentRepository;
 
     private final TaskMapper taskMapper;
-
-    public static final String TASK_NOT_FOUND_MESSAGE = "Task not found: ";
-
-    public static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found ";
-
-    public static final String USER_NOT_FOUND_MESSAGE = "User not found ";
-
-    public static final String NO_RIGHTS_MESSAGE = "No rights";
-
-    public static final String ALREADY_LIKED_MESSAGE = "Comment already liked ";
-
-    public static final String LIKE_NOT_FOUND_MESSAGE = "Like not found ";
 
     public TaskServiceImpl(TaskRepository taskRepository,
                            TestCaseRepository testCaseRepository,

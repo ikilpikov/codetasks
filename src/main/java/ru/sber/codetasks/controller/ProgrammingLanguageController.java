@@ -14,22 +14,15 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
+import static ru.sber.codetasks.controller.constants.Messages.*;
+
 @RestController
 @RequestMapping("/programming-language")
 @CrossOrigin(origins = "*")
 public class ProgrammingLanguageController {
     private final ProgrammingLanguageService programmingLanguageService;
 
-    public static final String LANGUAGE_ADDED_MESSAGE = "Language added successfully";
 
-    public static final String LANGUAGE_DELETED_MESSAGE = "Language deleted successfully";
-
-    public static final String LANGUAGE_UPDATED_MESSAGE = "Language updated successfully";
-
-    public static final String FIELDS_INVALID_MESSAGE = "Fields are invalid";
-
-    public static final String RELATION_VIOLATION_MESSAGE =
-            "Cannot delete cause this language is related to a task";
 
     public ProgrammingLanguageController(ProgrammingLanguageService programmingLanguageService) {
         this.programmingLanguageService = programmingLanguageService;
@@ -84,7 +77,7 @@ public class ProgrammingLanguageController {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public  ResponseEntity<String> dataIntegrityViolationException() {
-        return new ResponseEntity<>(RELATION_VIOLATION_MESSAGE,
+        return new ResponseEntity<>(LANGUAGE_RELATION_VIOLATION_MESSAGE,
                 HttpStatus.BAD_REQUEST);
     }
 
