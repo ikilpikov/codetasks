@@ -1,0 +1,78 @@
+.registration {
+  $color: #0cf;
+  font-size: 20px;
+  width: 40%;
+  height: 60vh;
+  margin: 25vh auto;
+  background-color: rgb(224, 239, 243);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 5%;
+
+  input {
+    height: 2em;
+    width: 40%;
+
+    &:hover {
+      background-color: rgb(233, 233, 213);
+    }
+    &:focus {
+      background-color: rgb(157, 220, 252);
+    }
+    &.registration__error-input {
+      border: 2px solid red;
+    }
+  }
+  .registration__button {
+    width: fit-content;
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10rem;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0.15rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $color;
+      border-radius: 10rem;
+      z-index: -2;
+    }
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background-color: darken($color, 15%);
+      transition: all 0.3s;
+      border-radius: 10rem;
+      z-index: -1;
+    }
+    &:hover {
+      color: #fff;
+      &:before {
+        width: 100%;
+      }
+    }
+    @media (max-width: 900px) {
+      font-size: 0.6rem;
+    }
+  }
+  .registration__error {
+    color: red;
+    font-weight: 800;
+  }
+}

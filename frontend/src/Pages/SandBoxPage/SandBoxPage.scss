@@ -1,0 +1,16 @@
+.sandBox {
+  position: relative;
+  margin: 0 auto;
+  width: 90%;
+  background-color: rgb(177, 213, 245);
+  height: 96vh;
+
+  .sandBox__main {
+    display: flex;
+  }
+  .conditionalPanel {
+    text-align: center;
+    width: 20%;
+    background-color: white;
+  }
+}

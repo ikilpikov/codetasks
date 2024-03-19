@@ -1,0 +1,36 @@
+.codeBlock {
+  overflow: auto;
+  display: flex;
+  width: 80%;
+  height: 600px;
+  background-color: rgb(238, 66, 149);
+
+  .line-numbers {
+    height: 500%;
+    width: 30px; /* Ширина колонки номеров строк */
+    background-color: #f0f0f0; /* Цвет фона */
+    padding: 5px;
+    font-family: monospace;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+
+    .line-number {
+      height: 20px; /* Высота для номера строки */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .editor {
+    overflow: hidden;
+    flex: 1; /* Расширение до оставшегося пространства */
+    padding: 5px;
+    height: 500%;
+    font-family: monospace;
+    resize: none; /* Запрет на изменение размера текстового поля */
+    border: none; /* Удаление границы текстового поля */
+    outline: none; /* Удаление выделения на фокусировке */
+    line-height: 20px;
+  }
+}

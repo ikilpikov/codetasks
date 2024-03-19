@@ -1,0 +1,12 @@
+.propertyCard {
+  padding: 5px;
+  margin: 0 auto;
+  width: 70%;
+  background-color: aliceblue;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  textarea {
+    width: 70%;
+  }
+}

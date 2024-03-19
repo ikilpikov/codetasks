@@ -1,0 +1,37 @@
+.comments {
+  .comments__body {
+    max-height: 300px;
+    overflow-y: auto;
+    &-piece {
+      border-bottom: 1px solid black;
+      padding: 5px;
+      p {
+        word-wrap: break-word;
+      }
+    }
+    &-like {
+      display: flex;
+    }
+    &-userHeader {
+      display: flex;
+    }
+    &-header {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .comments__sendComment {
+    display: flex;
+    gap: 10px textarea {
+      width: 70%;
+    }
+    margin-bottom: 10px;
+    textarea {
+      width: 80%;
+    }
+    button {
+      height: 43px;
+    }
+  }
+}

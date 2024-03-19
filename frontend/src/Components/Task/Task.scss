@@ -1,0 +1,28 @@
+.task {
+  font-size: 20px;
+  margin: 10px auto;
+  width: 80%;
+  padding: 10px;
+  background-color: rgb(89, 118, 233);
+  border-radius: 5px;
+  .task__header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .task__difficulty {
+    font-size: 18px;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 5px;
+    height: fit-content;
+    &.EASY {
+      background-color: greenyellow;
+    }
+    &.MEDIUM {
+      background-color: yellow;
+    }
+    &.HARD {
+      background-color: red;
+    }
+  }
+}

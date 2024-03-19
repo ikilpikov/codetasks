@@ -1,0 +1,24 @@
+.mainPage {
+  height: 100vh;
+}
+header {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-evenly;
+  button {
+    font-size: 20px;
+  }
+  .header__link {
+    text-decoration: none;
+  }
+}
+
+.changeProperty {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  input {
+    width: 200px;
+  }
+}
