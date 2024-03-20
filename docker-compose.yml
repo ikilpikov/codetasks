@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+  backend:
+    build:
+      context: ./spring-boot
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - custom-properties.executor.key=
+      - spring.datasource.password=
+      - spring.datasource.username=
