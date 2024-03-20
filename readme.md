@@ -14,7 +14,7 @@
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Apache Tomcat](https://img.shields.io/badge/apache%20tomcat-%23F8DC75.svg?style=for-the-badge&logo=apache-tomcat&logoColor=black)
 
-## Для начала работы с приложением необходимо:
+## Для начала работы с приложением необходимо
 
 ### 1. Склонировать репозиторий
 
@@ -22,7 +22,7 @@
 git clone git@github.com:ikilpikov/codetasks.git
 ```
 
-### 2. Добавить в docker-compose.yml значения переменным среды:
+### 2. Добавить в docker-compose.yml значения переменным среды
 
 - custom-properties.executor.key (ключ от API Onecompiller)
 
@@ -30,14 +30,14 @@ git clone git@github.com:ikilpikov/codetasks.git
 
 - spring.datasource.username (имя пользователя от базы данных)
 
-### 3. Открыть в терминале директорию проекта и исполнить команду:
+### 3. Открыть в терминале директорию проекта и исполнить команду
 ```
 docker-compose up
 ```
 
 ### 4. Открыть в браузере: <a href="localhost:5173/auth">localhost:5173/auth<a>
 
-## Примечания:
+## Примечания
 
 - База данных находится на удаленном сервере
 - Для входа с ролью администратора нужно ввести пару логин-пароль admin-admin
