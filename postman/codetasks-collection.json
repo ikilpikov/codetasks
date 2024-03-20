@@ -1,0 +1,932 @@
+{
+	"info": {
+		"_postman_id": "9607510e-165e-412f-a8b4-b41615f7bb8e",
+		"name": "codetasks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31101090"
+	},
+	"item": [
+		{
+			"name": "task",
+			"item": [
+				{
+					"name": "add a task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJpbHlhIiwic3ViIjoiYWRtaW4iLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDQ5MDY4MywiZXhwIjoxNzEwNDk3ODgzfQ.07raiGbTIvHY4zc-5CpPo5ZB3UutTWFD8Z71vdwcdp0OVA8iqwRtXZf5yaIg4BrvcYNR5ExY1WlOWlbsgo-C8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Реверс строки\",\n    \"condition\": \"Вывести все символы строки в обратном порядке\",\n    \"topic\": \"strings\",\n    \"difficulty\": \"EASY\",\n    \"languages\": [\"python\"],\n    \"testcases\": [\n        {\n            \"inputData\": \"123\",\n            \"outputData\": \"321\"\n        },\n\n         {\n            \"inputData\": \"главрыба\",\n            \"outputData\": \"абырвалг\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/task/add",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"task",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove a task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDU5OTk4MywiZXhwIjoxNzEwNjA3MTgzfQ.70fKPQrhlVq8caoHOkkGSomBzHntdbmlk2R0gu27vNwMfE21_bcBarenXuDJLIHX51FLWQTUXPuYSQAUjWNVOA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/task/delete/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJpbHlhIiwic3ViIjoiYWRtaW4iLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDg3OTExMiwiZXhwIjoxNzEwODg2MzEyfQ.Eo4oX5dSoqKQ2CqSIIAkGPjl7i-nd8-fbCzeG9af0lfklPVHO62ieBnfu8wXi7dB4Z87il7qVdlbqFmJ0iLvIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/task/all?page=0&size=10&difficulties=MEDIUM&difficulties=EASY&topics=arrays&topics=strings&languages=python&languages=java",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "difficulties",
+									"value": "MEDIUM"
+								},
+								{
+									"key": "difficulties",
+									"value": "EASY"
+								},
+								{
+									"key": "topics",
+									"value": "arrays"
+								},
+								{
+									"key": "topics",
+									"value": "strings"
+								},
+								{
+									"key": "languages",
+									"value": "python"
+								},
+								{
+									"key": "languages",
+									"value": "java"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get a task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDYwMDkyNSwiZXhwIjoxNzEwNjA4MTI1fQ.8ztL2405Zn39R98fTH7n5rEZF5hZQJeZtLccFlcICNPeP00eSitMVJ_w6BTiyAPueFpZQrkLDW-3keu2qyfMxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/task/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDYwMDkyNSwiZXhwIjoxNzEwNjA4MTI1fQ.8ztL2405Zn39R98fTH7n5rEZF5hZQJeZtLccFlcICNPeP00eSitMVJ_w6BTiyAPueFpZQrkLDW-3keu2qyfMxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Реверс строки\",\n    \"condition\": \"Вывести символы строки в обратном порядке\",\n    \"topic\": \"strings\",\n    \"difficulty\": \"EASY\",\n    \"languages\": [\"python\"],\n    \"testcases\": [\n        {\n            \"inputData\": \"123\",\n            \"outputData\": \"321\"\n        },\n\n        {\n            \"inputData\": \"1\",\n            \"outputData\": \"1\"\n        }\n    ]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/task/update/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "count tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJpbHlhIiwic3ViIjoiYWRtaW4iLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDM0MDM1NiwiZXhwIjoxNzEwMzQ3NTU2fQ.n9WO41rPXUoZHOSIhqi_pD3b1NDP6587V7Laob6QF96ewX_IEQoJ0ZBGXkId8nW63QQ_hDUqTgOSCEdcejtmZg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/task/count",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJpbHlhIiwic3ViIjoiYWRtaW4iLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDQxNjk4OCwiZXhwIjoxNzEwNDI0MTg4fQ.Zh1stPbQM_NUmcROUCpMWBNruGRvXXp7EfCksLWgoiZ7VBM5TWlSz2Uh_wI2vVZ_SsSyrphNRN89IWUlsRdXPg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Отдам котят в хорошие руки\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/task/3/comment/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"3",
+								"comment",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydHkiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiaWx5YSIsImlhdCI6MTcxMDI3MzI5OCwiZXhwIjoxNzEwMjgwNDk4fQ.X62YGu4wWfoweUitFp5wNGxUoOw_wspW_a82qpdH2WFuxKioDg2hP4DFsrTlGEYmeCVCPZZ0w1A4jkA7nuvDKQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/task/comment/delete/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"comment",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "like a comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDUwMTEwMCwiZXhwIjoxNzEwNTA4MzAwfQ.BHUqH_3eSdCDLlk_RWi7E9aATTsdtRqWUssAiAQ6YaRCfQNFupiyB31vLWWS0R3LHCLRzJo2nTgow3mtUa-JVg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/task/comment/like",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"comment",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unlike a comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJpbHlhIiwic3ViIjoiYWRtaW4iLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDQ0NTA0OSwiZXhwIjoxNzEwNDUyMjQ5fQ.xPeMEDB3BXgfEweORJePESneeYSp4TRX5qli8bmyPgL4E2X_m8vTUPwegA-zcEFHHoURoU0H7tFlSNIf1bjwBg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/task/comment/unlike",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"comment",
+								"unlike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get task for update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJpbHlhIiwic3ViIjoiYWRtaW4iLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDc0OTI1MywiZXhwIjoxNzEwNzU2NDUzfQ.an3tb0OanoxHo1VRYCKj47te8pBNlDr5XTwPjJHfAvHbgswe7iv7v1eiOfF4XImcAs9e7Dl9hvdGtFIb1Sshmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/task/update/22",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"update",
+								"22"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "topic",
+			"item": [
+				{
+					"name": "get all topics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJpbHlhIiwic3ViIjoiYWRtaW4iLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDQ5MDY4MywiZXhwIjoxNzEwNDk3ODgzfQ.07raiGbTIvHY4zc-5CpPo5ZB3UutTWFD8Z71vdwcdp0OVA8iqwRtXZf5yaIg4BrvcYNR5ExY1WlOWlbsgo-C8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/topic/all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get topic",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydHkiLCJpc3MiOiJpbHlhIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTcxMDA3OTgyMiwiZXhwIjoxNzEwMDg3MDIyfQ.Ct1DDDVH8HK2ysLZTy7BSbA_D-5S-pmj1TfLO43EbkJLDXNpMR9reAOT3FXzluVxt_djtcj1luq_N9yYGwoOqg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/topic/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete topic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDU5OTg3NywiZXhwIjoxNzEwNjA3MDc3fQ.6w55IkcguJpTQNgOTZgl5dya4EdRo64dYqJHeYUaF2tXduHKeesKU6dYmdcOlJtij1e8qEuOHABGAKqX_tPxbA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/topic/delete/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add topic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsImlzcyI6ImlseWEiLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcxMDIzNjk4MiwiZXhwIjoxNzEwMjQ0MTgyfQ.EZu_GzlCAD-R-wuVbXxdiIUjp63rGxYG2sEFHJ2x8kRFbBpbQDQCF83zy2YcqOpEClBcfFEbrJ64NMrNSHrBBw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"strings\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/topic/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update topic",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ssss\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/topic/update/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"update",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"somebody\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "solution",
+			"item": [
+				{
+					"name": "execute code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluIiwiaXNzIjoiaWx5YSIsImlhdCI6MTcxMDg1NzUwOSwiZXhwIjoxNzEwODY0NzA5fQ.jdJ5U5FcT7RA2bov9VkPft1xD-a-U43niJUrlrQxGK9d5XU3bGUVEqFZk1443_44iEzNmcXoQKA28qG8Zvu3og",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"language\": \"python\",\n    \"stdin\": \"123\",\n    \"code\": \"import sys\\nname = sys.stdin.readline()\\nprint('123')\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/solution/execute",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"solution",
+								"execute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "solution attempt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDUxOTE2MywiZXhwIjoxNzEwNTI2MzYzfQ.YwlNEfnR_WuuRr6dZlYyatp-14Ob9lb1GxQAohCIPfZIssYWWylrBWfpB6S5YErLbMzOqlCB359GPYrga9szwQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"taskId\": \"1\",\n    \"language\": \"python\",\n    \"code\": \"import sys\\nname = sys.stdin.readline()\\nprint(name[::-1])\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/solution/attempt",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"solution",
+								"attempt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all solutions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiaWx5YSIsInN1YiI6InF3ZXJ0eSIsImlhdCI6MTcxMDQxMzM1OSwiZXhwIjoxNzEwNDIwNTU5fQ.vmsBbVdrnmQSv-aCj_XSpot0mRQcCj5Kc138EfaFknChD1VifPeAUevyai3-8jMat5w9s7WoRsZ0OzQ6kkNCeg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/solution/all/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"solution",
+								"all",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "language",
+			"item": [
+				{
+					"name": "get language",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDYwMDkyNSwiZXhwIjoxNzEwNjA4MTI1fQ.8ztL2405Zn39R98fTH7n5rEZF5hZQJeZtLccFlcICNPeP00eSitMVJ_w6BTiyAPueFpZQrkLDW-3keu2qyfMxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/programming-language/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"programming-language",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add language",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDYwMDkyNSwiZXhwIjoxNzEwNjA4MTI1fQ.8ztL2405Zn39R98fTH7n5rEZF5hZQJeZtLccFlcICNPeP00eSitMVJ_w6BTiyAPueFpZQrkLDW-3keu2qyfMxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"python\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/programming-language/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"programming-language",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all languages",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDYwMDkyNSwiZXhwIjoxNzEwNjA4MTI1fQ.8ztL2405Zn39R98fTH7n5rEZF5hZQJeZtLccFlcICNPeP00eSitMVJ_w6BTiyAPueFpZQrkLDW-3keu2qyfMxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/programming-language/all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"programming-language",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update language",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDYwMDkyNSwiZXhwIjoxNzEwNjA4MTI1fQ.8ztL2405Zn39R98fTH7n5rEZF5hZQJeZtLccFlcICNPeP00eSitMVJ_w6BTiyAPueFpZQrkLDW-3keu2qyfMxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"python\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/programming-language/update/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"programming-language",
+								"update",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete language",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImlseWEiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImlhdCI6MTcxMDYwMDkyNSwiZXhwIjoxNzEwNjA4MTI1fQ.8ztL2405Zn39R98fTH7n5rEZF5hZQJeZtLccFlcICNPeP00eSitMVJ_w6BTiyAPueFpZQrkLDW-3keu2qyfMxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/programming-language/delete/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"programming-language",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost:8080",
+			"type": "string"
+		}
+	]
+}
