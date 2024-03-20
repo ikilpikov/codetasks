@@ -35,7 +35,7 @@ git clone git@github.com:ikilpikov/codetasks.git
 docker-compose up
 ```
 
-### 4. Открыть в браузере <localhost:5173/auth>
+### 4. Открыть в браузере: <a href="localhost:5173/auth">страница входа<a>
 
 ## Примечания:
 
