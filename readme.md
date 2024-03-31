@@ -37,6 +37,12 @@ docker-compose up
 
 ### 4. Открыть в браузере: <a href="http://localhost:5173/auth">localhost:5173/auth</a>
 
+## Варианты использования
+
+### [Пользователь](https://github.com/ikilpikov/codetasks/blob/main/docs/usecases/user-usecase.md)
+
+### [Администратор](https://github.com/ikilpikov/codetasks/blob/main/docs/usecases/admin-usecase.md)
+
 ## Примечания
 
 - База данных находится на удаленном сервере
