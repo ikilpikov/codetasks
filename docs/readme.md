@@ -43,6 +43,10 @@ docker-compose up
 
 ### [Администратор](https://github.com/ikilpikov/codetasks/blob/main/docs/usecases/admin-usecase.md)
 
+## Схема данных
+
+### [Диаграмма базы данных](https://github.com/ikilpikov/codetasks/blob/main/docs/data/database-diagram.md)
+
 ## Примечания
 
 - База данных находится на удаленном сервере
